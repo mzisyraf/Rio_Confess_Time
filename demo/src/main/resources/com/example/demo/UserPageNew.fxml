@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="690.0" prefWidth="1360.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.UserPageNew">
+   <children>
+      <BorderPane prefHeight="690.0" prefWidth="1360.0">
+         <bottom>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#6298bc" height="30.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1360.0" />
+         </bottom>
+         <center>
+            <SplitPane dividerPositions="0.35" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" BorderPane.alignment="CENTER">
+              <items>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="196.0" prefWidth="958.0">
+                     <children>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c0ced1" height="196.0" layoutY="-2.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="958.0" />
+                        <Text fill="#071c34" layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Reply to:">
+                           <font>
+                              <Font name="Marlett" size="15.0" />
+                           </font>
+                        </Text>
+                        <TextField fx:id="replyID" layoutX="84.0" layoutY="10.0" promptText="UMXXXXX">
+                           <font>
+                              <Font name="Marlett" size="15.0" />
+                           </font>
+                        </TextField>
+                        <TextField fx:id="userPostConfession" alignment="TOP_LEFT" layoutX="10.0" layoutY="45.0" prefHeight="137.0" prefWidth="861.0" promptText="Make a confession post!">
+                           <font>
+                              <Font name="Marlett" size="15.0" />
+                           </font></TextField>
+                        <Button fx:id="userSubmitConfession" layoutX="881.0" layoutY="156.0" mnemonicParsing="false" onAction="#userSubmitConfessionClicked" text="Submit">
+                           <font>
+                              <Font name="Marlett" size="15.0" />
+                           </font>
+                        </Button>
+                        <Text fill="#071c34" layoutX="274.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="* leave blank if not replying to anyone.">
+                           <font>
+                              <Font name="System Italic" size="10.0" />
+                           </font>
+                        </Text>
+                        <Button fx:id="imageButton" layoutX="894.0" layoutY="87.0" mnemonicParsing="false" onAction="#imageButtonClicked">
+                           <graphic>
+                              <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@Icons/picture.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                     </children>
+                  </AnchorPane>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="378.0" prefWidth="958.0">
+                     <children>
+                        <ScrollPane fx:id="approvedConfessionsScroll" prefHeight="360.0" prefWidth="960.0">
+                           <content>
+                              <VBox fx:id="approvedConfessions" alignment="CENTER" prefHeight="360.0" prefWidth="960.0" />
+                           </content>
+                        </ScrollPane>
+                     </children>
+                  </AnchorPane>
+              </items>
+            </SplitPane>
+         </center>
+         <right>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#87b2cc" height="560.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="200.0" />
+                  <Text fill="#071c34" layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search by...">
+                     <font>
+                        <Font name="Marlett" size="15.0" />
+                     </font>
+                  </Text>
+                  <Text fill="#071c34" layoutX="14.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Keyword:">
+                     <font>
+                        <Font name="Marlett" size="15.0" />
+                     </font>
+                  </Text>
+                  <Text fill="#071c34" layoutX="14.0" layoutY="128.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID:">
+                     <font>
+                        <Font name="Marlett" size="15.0" />
+                     </font>
+                  </Text>
+                  <TextField fx:id="userKeywordSearch" layoutX="14.0" layoutY="72.0" prefHeight="25.0" prefWidth="172.0" />
+                  <TextField fx:id="userIdSearch" layoutX="14.0" layoutY="138.0" prefHeight="25.0" prefWidth="172.0" promptText="UMXXXXX">
+                     <font>
+                        <Font name="Marlett" size="15.0" />
+                     </font></TextField>
+                  <Text fill="#071c34" layoutX="14.0" layoutY="192.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date:">
+                     <font>
+                        <Font name="Marlett" size="15.0" />
+                     </font>
+                  </Text>
+                  <Button fx:id="userSearch" layoutX="68.0" layoutY="255.0" mnemonicParsing="false" onAction="#userSearchClicked" text="Search">
+                     <font>
+                        <Font name="Marlett" size="15.0" />
+                     </font>
+                  </Button>
+                  <DatePicker fx:id="userDateSearch" layoutX="13.0" layoutY="202.0" />
+                  <Text fill="#071c34" layoutX="14.0" layoutY="389.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Report a post...">
+                     <font>
+                        <Font name="Marlett" size="15.0" />
+                     </font>
+                  </Text>
+                  <Text fill="#071c34" layoutX="14.0" layoutY="422.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID:">
+                     <font>
+                        <Font name="Marlett" size="15.0" />
+                     </font>
+                  </Text>
+                  <TextField fx:id="userIdReport" layoutX="14.0" layoutY="432.0" prefHeight="25.0" prefWidth="172.0" promptText="UMXXXXX">
+                     <font>
+                        <Font name="Marlett" size="15.0" />
+                     </font>
+                  </TextField>
+                  <Button fx:id="userReport" layoutX="67.0" layoutY="482.0" mnemonicParsing="false" onAction="#userReportClicked" text="Report">
+                     <font>
+                        <Font name="Marlett" size="15.0" />
+                     </font>
+                  </Button>
+               </children>
+            </AnchorPane>
+         </right>
+         <left>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#87b2cc" height="560.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="200.0" />
+                  <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="33.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Icons/home.png" />
+                     </image>
+                  </ImageView>
+                  <Text fx:id="userHome" fill="#071c34" layoutX="68.0" layoutY="54.0" onMouseClicked="#userHomeClicked" strokeType="OUTSIDE" strokeWidth="0.0" text="HOME">
+                     <font>
+                        <Font name="Marlett" size="15.0" />
+                     </font>
+                  </Text>
+                  <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="33.0" layoutY="503.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Icons/sign-out.png" />
+                     </image>
+                  </ImageView>
+                  <Text fx:id="userLogOut" fill="#071c34" layoutX="68.0" layoutY="522.0" onMouseClicked="#userLogOutClicked" strokeType="OUTSIDE" strokeWidth="0.0" text="LOG OUT">
+                     <font>
+                        <Font name="Marlett" size="15.0" />
+                     </font>
+                  </Text>
+               </children>
+            </AnchorPane>
+         </left>
+         <top>
+            <AnchorPane prefHeight="100.0" prefWidth="1360.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#6298bc" height="105.0" layoutY="-1.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1360.0" />
+                  <ImageView fitHeight="54.0" fitWidth="495.0" layoutX="444.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Icons/1655483851403.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="81.0" fitWidth="126.0" layoutX="14.0" layoutY="19.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Icons/PngItem_1352975.1.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="62.0" fitWidth="136.0" layoutX="149.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Icons/PngItem_1352975.3.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="81.0" fitWidth="126.0" layoutX="305.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Icons/PngItem_1352975.2.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="62.0" fitWidth="131.0" layoutX="1079.0" layoutY="19.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Icons/PngItem_1352975.4.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="66.0" fitWidth="118.0" layoutX="936.0" layoutY="19.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Icons/PngItem_1352975.5.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="81.0" fitWidth="126.0" layoutX="1220.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Icons/PngItem_1352975.6.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+         </top>
+      </BorderPane>
+   </children>
+</AnchorPane>
