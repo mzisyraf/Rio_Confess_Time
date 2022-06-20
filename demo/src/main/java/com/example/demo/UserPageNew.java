@@ -98,15 +98,18 @@ public class UserPageNew {
     @FXML
     void userLogOutClicked(MouseEvent event) {
         Parent root = null;
+        FXMLLoader Loader = new FXMLLoader(getClass().getResource("FrontPageNew.fxml"));
         try {
             root = FXMLLoader.load(getClass().getResource("FrontPageNew.fxml"));
         } catch (Exception e) {
         }
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-
         Scene scene = new Scene(root, 1360, 695);
         stage.setResizable(true);
         stage.setScene(scene);
+        stage.setMaximized(true);
+        FrontPageNew frontPageNew = Loader.getController();
+        frontPageNew.setWaitingList(waitingList);
         stage.setTitle("Login Page");
         stage.show();
     }
@@ -124,6 +127,8 @@ public class UserPageNew {
     @FXML
     void userSubmitConfessionClicked(ActionEvent event) {
 
+        //initialise image variable
+        imageURL = null;
         //get inputs
         String id_reply = String.valueOf(this.replyID);
         int id_rep = Integer.parseInt(id_reply);
@@ -154,8 +159,9 @@ public class UserPageNew {
         if (this.replyID.getText().isEmpty())
             id_rep = 0;
 
-        //create Post object
-        Post newConfession = new Post(content , userID, String.valueOf(times), id_rep);
+        //create Post object and push into queue
+        Post newConfession = new Post(id_rep,content,imageURL,dates.toString(),times.toString(),this.userID);
+        waitingList.offer(newConfession);
 
     }
 
@@ -456,7 +462,7 @@ public class UserPageNew {
         return 1;
     }
 
-    final FileChooser fileChooser = new FileChooser();
+
     EventHandler<ActionEvent> addImageButtonListener= new EventHandler<ActionEvent>(){
 
         public void handle(ActionEvent actionEvent) {

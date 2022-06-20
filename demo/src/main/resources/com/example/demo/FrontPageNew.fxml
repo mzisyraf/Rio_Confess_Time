@@ -7,9 +7,9 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="690.0" prefWidth="1360.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.FrontPageNew">
+<AnchorPane xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.FrontPageNew">
    <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#071c34" height="690.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1360.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#071c34" height="690.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1360.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <ImageView fitHeight="690.0" fitWidth="1360.0" opacity="0.14" pickOnBounds="true">
          <image>
             <Image url="@Icons/1e72e177da44eac61f206607a320d927.jpg" />

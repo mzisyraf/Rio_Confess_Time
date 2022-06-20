@@ -74,15 +74,18 @@ public class AdminPageNew {
     @FXML
     void adminLogOutClicked(MouseEvent event) {
         Parent root = null;
+        FXMLLoader Loader = new FXMLLoader(getClass().getResource("FrontPageNew.fxml"));
         try {
             root = FXMLLoader.load(getClass().getResource("FrontPageNew.fxml"));
         } catch (Exception e) {
         }
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-
         Scene scene = new Scene(root, 1360, 695);
         stage.setResizable(true);
         stage.setScene(scene);
+        stage.setMaximized(true);
+        FrontPageNew frontPageNew = Loader.getController();
+        frontPageNew.setWaitingList(waitingList);
         stage.setTitle("Login Page");
         stage.show();
     }

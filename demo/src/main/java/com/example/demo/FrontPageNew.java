@@ -28,7 +28,7 @@ public class FrontPageNew {
     @FXML
     void toLoginInterfaceClicked(ActionEvent event) {
         Parent root = null;
-        FXMLLoader Loader = new FXMLLoader();
+        FXMLLoader Loader = new FXMLLoader(getClass().getResource("LoginPageNew.fxml"));
         try {
             root = Loader.load(getClass().getResource("LoginPageNew.fxml"));
         } catch (Exception e) {
@@ -46,7 +46,7 @@ public class FrontPageNew {
     @FXML
     void toRegisterInterfaceClicked(ActionEvent event) {
         Parent root = null;
-        FXMLLoader Loader = new FXMLLoader();
+        FXMLLoader Loader = new FXMLLoader(getClass().getResource("RegisterPageNew.fxml"));
         try {
             root = Loader.load(getClass().getResource("RegisterPageNew.fxml"));
         } catch (Exception e) {

@@ -1,29 +1,28 @@
 package com.example.demo;
 
-import javafx.scene.control.TextField;
-
 public class Post {
     private int PostID;
     private String content;
     private String userID;
     private int reply_id;
-    private String time;
+    private String date, time;
     private String imageURL;
 
-    //submission with
-    public Post(String content, String userID, String time,int reply_id, String imageURL) {
+    public Post(int reply_id, String content, String imageURL, String date, String time, String userID ) {
         this.content = content;
         this.userID = userID;
+        this.date = date;
         this.time = time;
         this.reply_id = reply_id;
         this.imageURL = imageURL;
     }
 
-    public Post(String content, String userID, String time, int reply_id) {
-        this.content = content;
-        this.userID = userID;
-        this.time = time;
-        this.reply_id = reply_id;
+    public String getDate() {
+        return date;
+    }
+
+    public String getImageURL() {
+        return imageURL;
     }
 
     public String getContent() {

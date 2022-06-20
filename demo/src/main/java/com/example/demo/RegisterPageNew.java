@@ -38,6 +38,7 @@ public class RegisterPageNew {
     @FXML
     void registerButtonClicked(ActionEvent event) {
         Parent root = null;
+        FXMLLoader Loader = new FXMLLoader(getClass().getResource("LoginPageNew.fxml"));
         try {
             root = FXMLLoader.load(getClass().getResource("LoginPageNew.fxml"));
         } catch (Exception e) {
@@ -47,6 +48,9 @@ public class RegisterPageNew {
         Scene scene = new Scene(root, 1360, 695);
         stage.setResizable(true);
         stage.setScene(scene);
+        stage.setMaximized(true);
+        LoginPageNew loginPageNew = Loader.getController();
+        loginPageNew.setWaitingList(waitingList);
         stage.setTitle("Login Page");
         stage.show();
     }
@@ -54,6 +58,7 @@ public class RegisterPageNew {
     @FXML
     void backToFrontPageClicked(MouseEvent event) {
         Parent root = null;
+        FXMLLoader Loader = new FXMLLoader(getClass().getResource("FrontPageNew.fxml"));
         try {
             root = FXMLLoader.load(getClass().getResource("FrontPageNew.fxml"));
         } catch (Exception e) {
@@ -63,6 +68,9 @@ public class RegisterPageNew {
         Scene scene = new Scene(root, 1360, 695);
         stage.setResizable(true);
         stage.setScene(scene);
+        stage.setMaximized(true);
+        FrontPageNew frontPageNew = Loader.getController();
+        frontPageNew.setWaitingList(waitingList);
         stage.setTitle("Login Page");
         stage.show();
     }

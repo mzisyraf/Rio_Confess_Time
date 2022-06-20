@@ -15,12 +15,14 @@ public class HelloApplication extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+        Queue waitingList = this.waitingList;
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("FrontPageNew.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1660, 750);
         stage.setTitle("CONFESS TIME");
         stage.setScene(scene);
+        stage.setMaximized(true);
         FrontPageNew frontPageNew = fxmlLoader.getController();
-        frontPageNew.setWaitingList(this.waitingList);
+        frontPageNew.setWaitingList(waitingList);
         stage.show();
 
     }
