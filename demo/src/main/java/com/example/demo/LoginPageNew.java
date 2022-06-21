@@ -3,28 +3,38 @@ package com.example.demo;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
+import java.net.URL;
 import java.sql.*;
-import java.util.Queue;
+import java.util.LinkedList;
+import java.util.ResourceBundle;
+import java.util.Timer;
 
-public class LoginPageNew {
+public class LoginPageNew implements Initializable {
     Stage stage;
     private Queue<Post> waitingList;
+    Queue<Post> waiting;
 
-    public void setWaitingList(Queue waitingList) {
+    public void setWaitingList(Queue<Post> waitingList) {
         this.waitingList = waitingList;
+        waiting = this.waitingList;
     }
 
     @FXML
     private Button adminLoginButton;
+
+    @FXML
+    private Label loginErrorBanner;
 
     @FXML
     private ImageView backToFrontPage;
@@ -54,25 +64,27 @@ public class LoginPageNew {
                  * enter admin page
                  */
                 Parent root = null;
-                FXMLLoader Loader = new FXMLLoader(getClass().getResource("AdminPageNew.fxml"));
+                FXMLLoader Loader = new FXMLLoader();
+                Loader.setLocation(getClass().getResource("AdminPageNew.fxml"));
                 try {
-                    root = FXMLLoader.load(getClass().getResource("AdminPageNew.fxml"));
+                    root = Loader.load();
                 } catch (Exception e) {
                 }
                 stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+                AdminPageNew adminPageNew = Loader.getController();
+                adminPageNew.setWaitingList(waiting);
                 Scene scene = new Scene(root, 1360, 695);
                 stage.setResizable(true);
                 stage.setMaximized(true);
+                stage.setFullScreen(true);
                 stage.setScene(scene);
-                AdminPageNew adminPageNew = Loader.getController();
-                adminPageNew.setWaitingList(waitingList);
                 stage.setTitle("Admin Page");
                 stage.show();
             }
             else {
-                /**
-                 * display invalid credentials
-                 */
+                loginErrorBanner.setOpacity(1);
+                idLogin.setText("");
+                passwordLogin.setText("");
             }
             res.close();;
             st.close();
@@ -93,18 +105,20 @@ public class LoginPageNew {
     @FXML
     void backToFrontPageClicked(MouseEvent event) {
         Parent root = null;
-        FXMLLoader Loader = new FXMLLoader(getClass().getResource("FrontPageNew.fxml"));
+        FXMLLoader Loader = new FXMLLoader();
+        Loader.setLocation(getClass().getResource("FrontPageNew.fxml"));
         try {
-            root = FXMLLoader.load(getClass().getResource("FrontPageNew.fxml"));
+            root = Loader.load();
         } catch (Exception e) {
         }
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root, 1920, 1080);
+        FrontPageNew frontPageNew = Loader.getController();
+        frontPageNew.setWaitingList(waiting);
+        Scene scene = new Scene(root, 1360, 695);
         stage.setResizable(true);
         stage.setMaximized(true);
+        stage.setFullScreen(true);
         stage.setScene(scene);
-        FrontPageNew frontPageNew = Loader.getController();
-        frontPageNew.setWaitingList(waitingList);
         stage.setTitle("Login Page");
         stage.show();
     }
@@ -115,7 +129,7 @@ public class LoginPageNew {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/confession_time", "root", "root");
-            PreparedStatement preparedStatement = con.prepareStatement("SELECT class FROM user WHERE userID = ? AND password = ?");
+            PreparedStatement preparedStatement = con.prepareStatement("SELECT * FROM user WHERE userID = ? AND password = ?");
             preparedStatement.setString(1, idLogin.getText().trim());
             preparedStatement.setString(2, passwordLogin.getText().trim());
             //check if credentials are valid
@@ -127,18 +141,21 @@ public class LoginPageNew {
                      * enter  normal user page
                      */
                     Parent root = null;
-                    FXMLLoader Loader = new FXMLLoader(getClass().getResource("UserPageNew.fxml"));
+                    FXMLLoader Loader = new FXMLLoader();
+                    Loader.setLocation(getClass().getResource("UserPageNew.fxml"));
                     try {
-                        root = Loader.load(getClass().getResource("UserPageNew.fxml"));
+                        root = Loader.load();
                     } catch (Exception e) {
                     }
                     stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+                    UserPageNew userPageNew = Loader.getController();
+                    userPageNew.setUserID(String.valueOf(this.idLogin));
+                    userPageNew.setWaitingList(waiting);
                     Scene scene = new Scene(root, 1360, 695);
                     stage.setResizable(true);
                     stage.setMaximized(true);
+                    stage.setFullScreen(true);
                     stage.setScene(scene);
-                    UserPageNew userPageNew = Loader.getController();
-                    userPageNew.setUserID(String.valueOf(this.idLogin));
                     stage.setTitle("User Page");
                     stage.show();
                 }
@@ -147,27 +164,30 @@ public class LoginPageNew {
                      * enter  blocked user page
                      */
                     Parent root = null;
-                    FXMLLoader Loader = new FXMLLoader(getClass().getResource("UserPageNew.fxml"));
+                    FXMLLoader Loader = new FXMLLoader();
+                    Loader.setLocation(getClass().getResource("UserPageNew.fxml"));
                     try {
-                        root = Loader.load(getClass().getResource("BlockedUserPageNew.fxml"));
+                        root = Loader.load();
                     } catch (Exception e) {
                     }
+                    BlockedUserPageNew blockedUserPageNew = Loader.getController();
+                    blockedUserPageNew.setUserID(String.valueOf(idLogin));
+                    blockedUserPageNew.setWaitingList(waiting);
                     stage = (Stage)((Node)event.getSource()).getScene().getWindow();
                     Scene scene = new Scene(root, 1360, 695);
                     stage.setResizable(true);
                     stage.setMaximized(true);
+                    stage.setFullScreen(true);
                     stage.setScene(scene);
-                    UserPageNew userPageNew = Loader.getController();
-                    userPageNew.setUserID(String.valueOf(this.idLogin));
                     stage.setTitle("User Page");
                     stage.show();
                 }
 
             }
             else {
-                /**
-                 * display invalid credentials
-                 */
+                idLogin.setText("");
+                passwordLogin.setText("");
+                loginErrorBanner.setOpacity(1);
             }
             res.close();;
             preparedStatement.close();
@@ -185,4 +205,11 @@ public class LoginPageNew {
         }
     }
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        waiting = new Queue<>();
+        Timer time = new Timer(); // Instantiate Timer Object
+        ScheduledTask st = new ScheduledTask(waiting); // Instantiate ScheduledTask class
+        time.schedule(st, 0, 1000);
+    }
 }

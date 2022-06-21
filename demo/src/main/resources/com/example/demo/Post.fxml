@@ -9,11 +9,11 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="960.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.PostUI">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="1136.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.PostUI">
    <children>
-      <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+      <HBox alignment="CENTER_LEFT" prefHeight="18.0" prefWidth="1096.0">
          <children>
-            <Label fx:id="postId" text="#UMXXXXX" textFill="#6298bc">
+            <Label fx:id="postId" text="XXX" textFill="#6298bc">
                <HBox.margin>
                   <Insets left="10.0" />
                </HBox.margin>
@@ -26,7 +26,30 @@
             <Insets left="20.0" right="20.0" />
          </VBox.margin>
       </HBox>
-      <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #F0F8FF;">
+      <HBox alignment="CENTER_LEFT" prefHeight="23.0" prefWidth="1096.0">
+         <children>
+            <Label fx:id="postId1" alignment="CENTER" opacity="0.0" text="Replying to:" textFill="#6298bc" HBox.hgrow="ALWAYS">
+               <font>
+                  <Font name="Marlett" size="15.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin>
+            </Label>
+            <Label fx:id="postId2" opacity="0.0" text="XXX" textFill="#6298bc">
+               <font>
+                  <Font name="Marlett" size="15.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin>
+            </Label>
+         </children>
+         <VBox.margin>
+            <Insets left="20.0" right="20.0" />
+         </VBox.margin>
+      </HBox>
+      <HBox prefHeight="100.0" prefWidth="1096.0" style="-fx-background-color: #F0F8FF;">
          <children>
             <Label fx:id="postConfession" text="Confession">
                <font>
@@ -38,10 +61,10 @@
             </Label>
          </children>
          <VBox.margin>
-            <Insets left="20.0" right="20.0" />
+            <Insets left="20.0" right="20.0" top="10.0" />
          </VBox.margin>
       </HBox>
-      <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+      <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="1096.0">
          <children>
             <ImageView fx:id="postLikeButton" fitHeight="20.0" fitWidth="20.0" onMouseClicked="#postLikeButtonClicked" pickOnBounds="true" preserveRatio="true">
                <image>

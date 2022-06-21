@@ -7,30 +7,30 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.FrontPageNew">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="864.0" prefWidth="1536.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.FrontPageNew">
    <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#071c34" height="690.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1360.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-      <ImageView fitHeight="690.0" fitWidth="1360.0" opacity="0.14" pickOnBounds="true">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#071c34" height="864.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1536.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <ImageView fitHeight="864.0" fitWidth="1536.0" opacity="0.14" pickOnBounds="true">
          <image>
             <Image url="@Icons/1e72e177da44eac61f206607a320d927.jpg" />
          </image>
       </ImageView>
-      <ImageView fitHeight="159.0" fitWidth="170.0" layoutX="599.0" layoutY="188.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="159.0" fitWidth="170.0" layoutX="687.0" layoutY="276.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Icons/f0dcb36bfdea62047b3eb63d364121a3.gif" />
          </image>
       </ImageView>
-      <ImageView fitHeight="242.0" fitWidth="557.0" layoutX="402.0" layoutY="381.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="242.0" fitWidth="557.0" layoutX="490.0" layoutY="469.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Icons/1655489819476.png" />
          </image>
       </ImageView>
-      <Button fx:id="toLoginInterface" layoutX="538.0" layoutY="475.0" mnemonicParsing="false" onAction="#toLoginInterfaceClicked" text="LOG IN">
+      <Button fx:id="toLoginInterface" layoutX="626.0" layoutY="563.0" mnemonicParsing="false" onAction="#toLoginInterfaceClicked" text="LOG IN">
          <font>
             <Font name="Marlett" size="15.0" />
          </font>
       </Button>
-      <Button fx:id="toRegisterInterface" layoutX="735.0" layoutY="475.0" mnemonicParsing="false" onAction="#toRegisterInterfaceClicked" text="REGISTER">
+      <Button fx:id="toRegisterInterface" layoutX="823.0" layoutY="563.0" mnemonicParsing="false" onAction="#toRegisterInterfaceClicked" text="REGISTER">
          <font>
             <Font name="Marlett" size="15.0" />
          </font>

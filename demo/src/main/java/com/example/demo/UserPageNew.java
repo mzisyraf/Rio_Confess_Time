@@ -4,14 +4,12 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
@@ -20,29 +18,25 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.net.URL;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Queue;
-import java.util.Scanner;
+import java.util.*;
 
-public class UserPageNew {
+public class UserPageNew implements Initializable {
     private String userID, imageURL;
     private Queue<Post> waitingList;
-
-    public void setWaitingList(Queue waitingList) {
-        this.waitingList = waitingList;
-    }
-
-    public void setUserID(String userID){
-        this.userID = userID;
-    }
+    Queue<Post> waiting;
 
     Stage stage;
 
     @FXML
     private VBox approvedConfessions;
 
+    @FXML
+    private Label noReportId;
+
+    @FXML
+    private Label noSearchResult;
 
     @FXML
     private Button imageButton;
@@ -86,6 +80,15 @@ public class UserPageNew {
     @FXML
     private TextField replyID;
 
+    public void setWaitingList(Queue waitingList) {
+        this.waitingList = waitingList;
+        waiting = this.waitingList;
+    }
+
+    public void setUserID(String userID){
+        this.userID = userID;
+    }
+
     @FXML
     void imageButtonClicked(ActionEvent event) {
         imageButton.setOnAction(addImageButtonListener);
@@ -98,18 +101,20 @@ public class UserPageNew {
     @FXML
     void userLogOutClicked(MouseEvent event) {
         Parent root = null;
-        FXMLLoader Loader = new FXMLLoader(getClass().getResource("FrontPageNew.fxml"));
+        FXMLLoader Loader = new FXMLLoader();
+        Loader.setLocation(getClass().getResource("FrontPageNew.fxml"));
         try {
-            root = FXMLLoader.load(getClass().getResource("FrontPageNew.fxml"));
+            root = Loader.load();
         } catch (Exception e) {
         }
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        FrontPageNew frontPageNew = Loader.getController();
+        frontPageNew.setWaitingList(waiting);
         Scene scene = new Scene(root, 1360, 695);
         stage.setResizable(true);
         stage.setScene(scene);
         stage.setMaximized(true);
-        FrontPageNew frontPageNew = Loader.getController();
-        frontPageNew.setWaitingList(waitingList);
+        stage.setFullScreen(true);
         stage.setTitle("Login Page");
         stage.show();
     }
@@ -129,9 +134,12 @@ public class UserPageNew {
 
         //initialise image variable
         imageURL = null;
+        int id_rep = 0;
         //get inputs
         String id_reply = String.valueOf(this.replyID);
-        int id_rep = Integer.parseInt(id_reply);
+        if (!(this.replyID.getText().trim().equalsIgnoreCase(""))) {
+            id_rep = Integer.parseInt(id_reply);
+        }
         String content = String.valueOf(this.userPostConfession);
         String date = java.time.LocalDate.now().toString();
 
@@ -161,8 +169,8 @@ public class UserPageNew {
 
         //create Post object and push into queue
         Post newConfession = new Post(id_rep,content,imageURL,dates.toString(),times.toString(),this.userID);
-        waitingList.offer(newConfession);
-
+        waiting.enqueue(newConfession);
+        System.out.println(waiting.toString());
     }
 
     public static boolean searchid(){
@@ -487,4 +495,11 @@ public class UserPageNew {
             imageURL = url;
         }};
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        waiting = new Queue<>();
+        Timer time = new Timer(); // Instantiate Timer Object
+        ScheduledTask st = new ScheduledTask(waiting); // Instantiate ScheduledTask class
+        time.schedule(st, 0, 1000);
+    }
 }

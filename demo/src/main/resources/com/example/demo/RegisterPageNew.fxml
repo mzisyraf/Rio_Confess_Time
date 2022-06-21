@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -9,10 +10,10 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="690.0" prefWidth="1360.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.RegisterPageNew">
+<AnchorPane prefHeight="864.0" prefWidth="1536.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.RegisterPageNew">
    <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#071c34" height="690.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1360.0" />
-      <ImageView fitHeight="690.0" fitWidth="1360.0" opacity="0.14" pickOnBounds="true">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#071c34" height="864.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1536.0" />
+      <ImageView fitHeight="864.0" fitWidth="1536.0" opacity="0.14" pickOnBounds="true">
          <image>
             <Image url="@Icons/1e72e177da44eac61f206607a320d927.jpg" />
          </image>
@@ -22,22 +23,22 @@
             <Image url="@Icons/f0dcb36bfdea62047b3eb63d364121a3.gif" />
          </image>
       </ImageView>
-      <Button fx:id="registerButton" layoutX="633.0" layoutY="499.0" mnemonicParsing="false" onAction="#registerButtonClicked" text="REGISTER">
+      <Button fx:id="registerButton" layoutX="721.0" layoutY="586.0" mnemonicParsing="false" onAction="#registerButtonClicked" text="REGISTER">
          <font>
             <Font name="Marlett" size="15.0" />
          </font>
       </Button>
-      <ImageView fitHeight="150.0" layoutX="455.0" layoutY="166.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="150.0" layoutX="543.0" layoutY="253.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Icons/1655490922602.png" />
          </image>
       </ImageView>
-      <Text fill="#c0ced1" layoutX="534.0" layoutY="383.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID                 :   ">
+      <Text fill="#c0ced1" layoutX="622.0" layoutY="470.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID                 :   ">
          <font>
             <Font name="Marlett" size="20.0" />
          </font>
       </Text>
-      <Text fill="#c0ced1" layoutX="534.0" layoutY="417.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PASSWORD    :   ">
+      <Text fill="#c0ced1" layoutX="622.0" layoutY="504.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PASSWORD    :   ">
          <font>
             <Font name="Marlett" size="20.0" />
          </font>
@@ -47,7 +48,12 @@
             <Image url="@Icons/angle-double-small-left.png" />
          </image>
       </ImageView>
-      <TextField fx:id="idRegister" layoutX="677.0" layoutY="362.0" />
-      <TextField fx:id="passwordRegister" layoutX="677.0" layoutY="396.0" />
+      <TextField fx:id="idRegister" layoutX="765.0" layoutY="449.0" />
+      <TextField fx:id="passwordRegister" layoutX="765.0" layoutY="483.0" />
+      <Label fx:id="registerIdTaken" layoutX="634.0" layoutY="539.0" opacity="0.0" text="ID is already taken. Please try another one." textFill="RED">
+         <font>
+            <Font name="System Bold Italic" size="13.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

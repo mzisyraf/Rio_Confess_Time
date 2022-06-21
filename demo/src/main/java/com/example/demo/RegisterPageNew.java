@@ -3,24 +3,32 @@ package com.example.demo;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-import java.util.Queue;
+import java.net.URL;
+import java.sql.*;
+import java.util.LinkedList;
+import java.util.ResourceBundle;
+import java.util.Timer;
 
-public class RegisterPageNew {
+public class RegisterPageNew implements Initializable {
     Stage stage;
 
     private Queue<Post> waitingList;
+    Queue<Post> waiting;
 
-    public void setWaitingList(Queue waitingList) {
+    public void setWaitingList(Queue<Post> waitingList) {
         this.waitingList = waitingList;
+        waiting = this.waitingList;
     }
 
     @FXML
@@ -30,6 +38,9 @@ public class RegisterPageNew {
     private TextField idRegister;
 
     @FXML
+    private Label registerIdTaken;
+
+    @FXML
     private TextField passwordRegister;
 
     @FXML
@@ -37,42 +48,81 @@ public class RegisterPageNew {
 
     @FXML
     void registerButtonClicked(ActionEvent event) {
-        Parent root = null;
-        FXMLLoader Loader = new FXMLLoader(getClass().getResource("LoginPageNew.fxml"));
-        try {
-            root = FXMLLoader.load(getClass().getResource("LoginPageNew.fxml"));
-        } catch (Exception e) {
+        //get data from text fields
+        String userID = idRegister.getText().trim();
+        String password = passwordRegister.getText().trim();
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/confession_time", "root", "root");
+            Statement st = con.createStatement();
+            //check if email has already been registered
+            ResultSet res = st.executeQuery("select * from user where userID = '"+ userID + "'");
+            if (res.next()){
+                //if yes then prompt that the email has been registered before and reprompt the NewRegister UI
+                registerIdTaken.setOpacity(1);
+                idRegister.setText("");
+                passwordRegister.setText("");
+            }
+            else{
+                //if no then insert the data into the user database table and prompt the successful registration and transfer to CustomerMain UI
+                int executeUpdate = st.executeUpdate("INSERT INTO user (userID, password, class) VALUES ('" + userID + "','" + password +"', 1)");
+                //System.out.println("Account successfully registered!");
+                //go to login page
+                Parent root = null;
+                FXMLLoader Loader = new FXMLLoader();
+                Loader.setLocation(getClass().getResource("LoginPageNew.fxml"));
+                try {
+                    root = Loader.load();
+                } catch (Exception e) {
+                }
+                stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+                LoginPageNew loginPageNew = Loader.getController();
+                loginPageNew.setWaitingList(waiting);
+                Scene scene = new Scene(root, 1360, 695);
+                stage.setResizable(true);
+                stage.setScene(scene);
+                stage.setMaximized(true);
+                stage.setFullScreen(true);
+                stage.setTitle("Login Page");
+                stage.show();
+            }
         }
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-
-        Scene scene = new Scene(root, 1360, 695);
-        stage.setResizable(true);
-        stage.setScene(scene);
-        stage.setMaximized(true);
-        LoginPageNew loginPageNew = Loader.getController();
-        loginPageNew.setWaitingList(waitingList);
-        stage.setTitle("Login Page");
-        stage.show();
+        catch (ClassNotFoundException e) {
+            System.out.println("Error 1");
+            System.out.println(e);
+        }
+        catch (SQLException e){
+            System.out.println("Error 2");
+            System.out.println(e);
+        }
     }
 
     @FXML
     void backToFrontPageClicked(MouseEvent event) {
         Parent root = null;
-        FXMLLoader Loader = new FXMLLoader(getClass().getResource("FrontPageNew.fxml"));
+        FXMLLoader Loader = new FXMLLoader();
+        Loader.setLocation(getClass().getResource("FrontPageNew.fxml"));
         try {
-            root = FXMLLoader.load(getClass().getResource("FrontPageNew.fxml"));
+            root = Loader.load();
         } catch (Exception e) {
         }
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-
+        FrontPageNew frontPageNew = Loader.getController();
+        frontPageNew.setWaitingList(waiting);
         Scene scene = new Scene(root, 1360, 695);
         stage.setResizable(true);
         stage.setScene(scene);
         stage.setMaximized(true);
-        FrontPageNew frontPageNew = Loader.getController();
-        frontPageNew.setWaitingList(waitingList);
+        stage.setFullScreen(true);
         stage.setTitle("Login Page");
         stage.show();
     }
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        waiting = new Queue<>();
+        Timer time = new Timer(); // Instantiate Timer Object
+        ScheduledTask st = new ScheduledTask(waiting); // Instantiate ScheduledTask class
+        time.schedule(st, 0, 1000);
+    }
 }

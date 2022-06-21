@@ -1,48 +1,54 @@
 package com.example.demo;
 
+import javafx.fxml.Initializable;
+
+import java.net.URL;
 import java.sql.*;
 import java.time.Duration;
 import java.time.LocalDate;
-import java.util.Queue;
-import java.util.TimerTask;
-import java.util.Date;
+import java.util.*;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
-public class ScheduledTask extends TimerTask {
+public class ScheduledTask extends TimerTask implements Initializable {
 
     Date now;
 
     private Queue<Post> waitingList;
+    Queue<Post> waiting;
 
-    public void setWaitingList(Queue waitingList) {
-        this.waitingList = waitingList;
+    public ScheduledTask(Queue<Post> waitingList) {
+        this.waiting = waitingList;
     }
 
     @Override
     public void run() {
-        Queue<Post> waitingList = this.waitingList;
-        if (!waitingList.isEmpty()){
-            int queueLength = waitingList.size();
-            Post top = waitingList.peek();
+        if (!waiting.isEmpty())
+            System.out.println("test");
+        Queue<Post> waitingList = this.waiting;
+        if (!(this.waiting.getSize()==0)){
+            int queueLength = waiting.getSize();
+            Post top = waiting.peek();
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm");
             LocalTime startTime = LocalTime.parse(top.getTime(),dateTimeFormatter);
             LocalTime now = LocalTime.now();
             System.out.println(dateTimeFormatter.format(now));
+            System.out.println(waiting.getSize());
             Duration diff = Duration.between(startTime,now);
 
-            if (waitingList.size()<=5 && diff.compareTo(Duration.ofSeconds(900))>=0){
-                Post push = waitingList.poll();
+            if (queueLength<=5 && diff.compareTo(Duration.ofSeconds(900))>=0){
+                Post push = waiting.dequeue();
                 submit(push);
             }
 
-            else if (waitingList.size()<=10 && diff.compareTo(Duration.ofSeconds(600))>=0){
-                Post push = waitingList.poll();
+            else if (queueLength<=10 && diff.compareTo(Duration.ofSeconds(600))>=0){
+                Post push = waiting.dequeue();
                 submit(push);
             }
 
-            else if (waitingList.size()>10 && diff.compareTo(Duration.ofSeconds(300))>=0){
-                Post push = waitingList.poll();
+            else if (queueLength>10 && diff.compareTo(Duration.ofSeconds(300))>=0){
+                Post push = waiting.dequeue();
                 submit(push);
             }
         }
@@ -104,6 +110,11 @@ public class ScheduledTask extends TimerTask {
             System.out.println("SQL Exception");
             System.out.println(e);
         }
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        waiting = new Queue<>();
     }
 }
 

@@ -3,24 +3,31 @@ package com.example.demo;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.util.Queue;
+import java.net.URL;
+import java.util.LinkedList;
+import java.util.ResourceBundle;
+import java.util.Timer;
 
-public class AdminPageNew {
+public class AdminPageNew implements Initializable {
     Stage stage;
     private Queue<Post> waitingList;
+    Queue<Post> waiting;
 
-    public void setWaitingList(Queue waitingList) {
+    public void setWaitingList(Queue<Post> waitingList) {
         this.waitingList = waitingList;
+        waiting = this.waitingList;
     }
 
     @FXML
@@ -34,6 +41,12 @@ public class AdminPageNew {
 
     @FXML
     private Text adminHome;
+
+    @FXML
+    private Label noDeleteId;
+
+    @FXML
+    private Label noSearchResult;
 
     @FXML
     private TextField adminIdDelete;
@@ -74,18 +87,20 @@ public class AdminPageNew {
     @FXML
     void adminLogOutClicked(MouseEvent event) {
         Parent root = null;
-        FXMLLoader Loader = new FXMLLoader(getClass().getResource("FrontPageNew.fxml"));
+        FXMLLoader Loader = new FXMLLoader();
+        Loader.setLocation(getClass().getResource("FrontPageNew.fxml"));
         try {
-            root = FXMLLoader.load(getClass().getResource("FrontPageNew.fxml"));
+            root = Loader.load();
         } catch (Exception e) {
         }
+        FrontPageNew frontPageNew = Loader.getController();
+        frontPageNew.setWaitingList(waiting);
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root, 1360, 695);
         stage.setResizable(true);
         stage.setScene(scene);
         stage.setMaximized(true);
-        FrontPageNew frontPageNew = Loader.getController();
-        frontPageNew.setWaitingList(waitingList);
+        stage.setFullScreen(true);
         stage.setTitle("Login Page");
         stage.show();
     }
@@ -105,4 +120,11 @@ public class AdminPageNew {
 
     }
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        waiting = new Queue<>();
+        Timer time = new Timer(); // Instantiate Timer Object
+        ScheduledTask st = new ScheduledTask(waiting); // Instantiate ScheduledTask class
+        time.schedule(st, 0, 1000);
+    }
 }
