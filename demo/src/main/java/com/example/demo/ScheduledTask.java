@@ -5,7 +5,6 @@ import javafx.fxml.Initializable;
 import java.net.URL;
 import java.sql.*;
 import java.time.Duration;
-import java.time.LocalDate;
 import java.util.*;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -24,9 +23,6 @@ public class ScheduledTask extends TimerTask implements Initializable {
 
     @Override
     public void run() {
-        if (!waiting.isEmpty())
-            System.out.println("test");
-        Queue<Post> waitingList = this.waiting;
         if (!(this.waiting.getSize()==0)){
             int queueLength = waiting.getSize();
             Post top = waiting.peek();
@@ -37,9 +33,10 @@ public class ScheduledTask extends TimerTask implements Initializable {
             System.out.println(waiting.getSize());
             Duration diff = Duration.between(startTime,now);
 
-            if (queueLength<=5 && diff.compareTo(Duration.ofSeconds(900))>=0){
+            if (queueLength<=5 && diff.compareTo(Duration.ofSeconds(100))>=0){
                 Post push = waiting.dequeue();
                 submit(push);
+                System.out.println("success");
             }
 
             else if (queueLength<=10 && diff.compareTo(Duration.ofSeconds(600))>=0){
@@ -57,28 +54,44 @@ public class ScheduledTask extends TimerTask implements Initializable {
 
     public void submit(Post post){
         try{
-            LocalDate today = LocalDate.now();
+            //get submit time
             LocalTime time = LocalTime.now();
-            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/mm/yyyy");
             DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-            String postDate = String.valueOf(dateFormatter.format(today));
             String postTime = String.valueOf(timeFormatter.format(time));
+
+            //get submit date
+            String date = java.time.LocalDate.now().toString();
+
+            //change the format of date to dd/mm/yyyy
+            String[] newdate = date.split("-");
+            StringBuilder dates = new StringBuilder();
+            for(int i = newdate.length-1; i>=0; i--){
+                dates.append(newdate[i]);
+                if(i==0)
+                    break;
+                dates.append("/");
+            }
+            String postDate = String.valueOf(dates);
+
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/confession_time", "root", "root");
+            Statement st = con.createStatement();
+            //if there is reply
             if (post.getReply_id()>0){
                 PreparedStatement statement = con.prepareStatement("SELECT * FROM submission WHERE id_sub = "+post.getReply_id());
                 ResultSet res = statement.executeQuery();
                 //if reply id is valid
                 if (res.next()){
                     //if there is no image
-                    if (post.getImageURL().equalsIgnoreCase(null)){
-                        PreparedStatement preparedStatement = con.prepareStatement("INSERT INTO submission(id_reply,content,date,time,user) VALUES ("
+                System.out.println(post.getUserID());
+                    if (post.getImageURL()==null){
+                        int insert_data = st.executeUpdate("INSERT INTO submission(id_reply,content,date,time,user) VALUES ("
                                 +post.getReply_id()+",'"
                                 +post.getContent()+"','"
                                 +postDate+"','"
                                 +postTime+"','"
                                 +post.getUserID()+"')");
-                        preparedStatement.close();
+                        System.out.println("data pushed");
                     }
                     //if there is image
                     else {
@@ -89,6 +102,8 @@ public class ScheduledTask extends TimerTask implements Initializable {
                                 +postDate+"','"
                                 +postTime+"','"
                                 +post.getUserID()+"')");
+                        int insert_data = preparedStatement.executeUpdate();
+                        System.out.println("data pushed");
                         preparedStatement.close();
                     }
                 }
@@ -99,6 +114,33 @@ public class ScheduledTask extends TimerTask implements Initializable {
                 }
                 res.close();
                 statement.close();
+            }
+            //if the post is not replying to any other post
+            else {
+                    //if there is no image
+                    System.out.println(post.getUserID());
+                    if (post.getImageURL()==null){
+                        int insert_data = st.executeUpdate("INSERT INTO submission(id_reply,content,date,time,user) VALUES ("
+                                +post.getReply_id()+",'"
+                                +post.getContent()+"','"
+                                +postDate+"','"
+                                +postTime+"','"
+                                +post.getUserID()+"')");
+                        System.out.println("data pushed");
+                    }
+                    //if there is image
+                    else {
+                        PreparedStatement preparedStatement = con.prepareStatement("INSERT INTO submission(id_reply,content,image,date,time,user) VALUES ("
+                                +post.getReply_id()+",'"
+                                +post.getContent()+"','"
+                                +post.getImageURL()+"','"
+                                +postDate+"','"
+                                +postTime+"','"
+                                +post.getUserID()+"')");
+                        int insert_data = preparedStatement.executeUpdate();
+                        System.out.println("data pushed");
+                        preparedStatement.close();
+                    }
             }
             con.close();
         }

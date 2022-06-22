@@ -16,11 +16,10 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("FrontPageNew.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 1660, 750);
+        Scene scene = new Scene(fxmlLoader.load(), 1454, 841);
         stage.setTitle("CONFESS TIME");
         stage.setScene(scene);
         stage.setMaximized(true);
-        stage.setFullScreen(true);
         stage.show();
 
     }

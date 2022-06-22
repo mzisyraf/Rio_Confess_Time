@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="200.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.PopUpSubmit">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#071c34" height="200.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="300.0" />
+      <Label layoutX="16.0" layoutY="156.0" text="Your submission will be processed soon!" textFill="WHITE">
+         <font>
+            <Font name="Marlett" size="15.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="121.0" fitWidth="117.0" layoutX="116.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Icons/339888626008211.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

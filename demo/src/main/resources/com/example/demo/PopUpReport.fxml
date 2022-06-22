@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="200.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.PopUpBan">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#071c34" height="200.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="300.0" />
+      <Label layoutX="89.0" layoutY="156.0" text="Report successful!" textFill="WHITE">
+         <font>
+            <Font name="Marlett" size="15.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="122.0" fitWidth="123.0" layoutX="111.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Icons/339888882003211.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

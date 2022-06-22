@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="200.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.PopUp">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#071c34" height="200.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="300.0" />
+      <Label layoutX="19.0" layoutY="143.0" text="Your post has been detected as meaningless content!" textFill="WHITE">
+         <font>
+            <Font name="Marlett" size="11.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="89.0" fitWidth="78.0" layoutX="111.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Icons/339888535060211.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

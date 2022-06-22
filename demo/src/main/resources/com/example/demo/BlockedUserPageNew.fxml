@@ -3,6 +3,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
@@ -14,61 +15,70 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="864.0" prefWidth="1536.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.BlockedUserPageNew">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="841.0" prefWidth="1454.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.BlockedUserPageNew">
    <children>
-      <BorderPane prefHeight="690.0" prefWidth="1360.0">
+      <BorderPane prefHeight="841.0" prefWidth="1454.0">
          <bottom>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#6298bc" height="30.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1536.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#6298bc" height="30.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1454.0" />
          </bottom>
          <center>
-            <SplitPane dividerPositions="0.2708791208791208" orientation="VERTICAL" prefHeight="200.0" prefWidth="1136.0" BorderPane.alignment="CENTER">
+            <SplitPane dividerPositions="0.2854710556186152" orientation="VERTICAL" prefHeight="200.0" prefWidth="1054.0" BorderPane.alignment="CENTER">
               <items>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="1136.0">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="1054.0">
                      <children>
-                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c0ced1" height="200.0" layoutY="-2.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1136.0" />
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c0ced1" height="200.0" layoutY="-2.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1054.0" />
                         <Text fill="#071c34" layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Reply to:">
                            <font>
                               <Font name="Marlett" size="15.0" />
                            </font>
                         </Text>
-                        <TextField fx:id="blockedUserIdConfession" layoutX="84.0" layoutY="10.0" promptText="UMXXXXX" style="-fx-background-color: #000000;">
+                        <TextField fx:id="blockedUserIdConfession" editable="false" layoutX="84.0" layoutY="10.0" prefHeight="25.0" prefWidth="180.0" promptText="XXX" style="-fx-background-color: #000000;">
                            <font>
                               <Font name="Marlett" size="15.0" />
                            </font>
                         </TextField>
-                        <TextField fx:id="blockedUserPostConfession" alignment="TOP_LEFT" layoutX="10.0" layoutY="45.0" prefHeight="138.0" prefWidth="1033.0" promptText="Blocked users aren't allowed to post confessions." style="-fx-background-color: #000000;">
+                        <TextField fx:id="blockedUserPostConfession" alignment="TOP_LEFT" editable="false" layoutX="10.0" layoutY="45.0" prefHeight="138.0" prefWidth="956.0" promptText="Blocked users aren't allowed to post confessions." style="-fx-background-color: #000000;">
                            <font>
                               <Font name="Marlett" size="15.0" />
-                           </font></TextField>
-                        <Button fx:id="blockedUserSubmitConfession" layoutX="1052.0" layoutY="152.0" mnemonicParsing="false" onAction="#blockedUserSubmitConfessionClicked" text="Submit">
+                           </font>
+                        </TextField>
+                        <Button fx:id="blockedUserSubmitConfession" layoutX="972.0" layoutY="158.0" mnemonicParsing="false" onAction="#blockedUserSubmitConfessionClicked" text="Submit">
                            <font>
                               <Font name="Marlett" size="15.0" />
                            </font>
                         </Button>
-                        <ImageView fx:id="blockedUserInsertImage" fitHeight="25.0" fitWidth="25.0" layoutX="1073.0" layoutY="51.0" onMouseClicked="#blockedUserInsertImageClicked" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@Icons/picture.png" />
-                           </image>
-                        </ImageView>
-                        <Text fill="#071c34" layoutX="272.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="* leave blank if not repying to anyone.">
+                        <Text fill="#071c34" layoutX="270.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="* leave blank if not repying to anyone.">
                            <font>
                               <Font name="System Italic" size="10.0" />
                            </font>
                         </Text>
+                        <Button fx:id="imageButton" layoutX="985.0" layoutY="45.0" mnemonicParsing="false" onAction="#imageButtonClicked">
+                           <graphic>
+                              <ImageView fx:id="blockedUserInsertImage" fitHeight="25.0" fitWidth="25.0" onMouseClicked="#blockedUserInsertImageClicked" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@Icons/picture.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
                      </children>
                   </AnchorPane>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="529.0" prefWidth="1136.0">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="506.0" prefWidth="1054.0">
                      <children>
-                        <VBox layoutX="-1.0" prefHeight="529.0" prefWidth="1136.0" />
+                        <ScrollPane prefHeight="506.0" prefWidth="1054.0">
+                           <content>
+                              <VBox fx:id="approvedConfessions" prefHeight="506.0" prefWidth="1054.0" />
+                           </content>
+                        </ScrollPane>
                      </children>
                   </AnchorPane>
               </items>
             </SplitPane>
          </center>
          <right>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <AnchorPane prefHeight="706.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#87b2cc" height="729.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="200.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#87b2cc" height="706.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="200.0" />
                   <Text fill="#071c34" layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search by...">
                      <font>
                         <Font name="Marlett" size="15.0" />
@@ -134,9 +144,9 @@
             </AnchorPane>
          </right>
          <left>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <AnchorPane prefHeight="706.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#87b2cc" height="729.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="200.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#87b2cc" height="706.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="200.0" />
                   <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="33.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@Icons/home.png" />
@@ -147,12 +157,22 @@
                         <Font name="Marlett" size="15.0" />
                      </font>
                   </Text>
-                  <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="33.0" layoutY="670.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="33.0" layoutY="649.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@Icons/sign-out.png" />
                      </image>
                   </ImageView>
-                  <Text fx:id="blockedUserLogOut" fill="#071c34" layoutX="68.0" layoutY="689.0" onMouseClicked="#blockedUserLogOutClicked" strokeType="OUTSIDE" strokeWidth="0.0" text="LOG OUT">
+                  <Text fx:id="blockedUserLogOut" fill="#071c34" layoutX="68.0" layoutY="668.0" onMouseClicked="#blockedUserLogOutClicked" strokeType="OUTSIDE" strokeWidth="0.0" text="LOG OUT">
+                     <font>
+                        <Font name="Marlett" size="15.0" />
+                     </font>
+                  </Text>
+                  <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="33.0" layoutY="80.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Icons/ballot.png" />
+                     </image>
+                  </ImageView>
+                  <Text fx:id="blockedUserPosts" fill="#071c34" layoutX="68.0" layoutY="99.0" onMouseClicked="#blockedUserPostsClicked" strokeType="OUTSIDE" strokeWidth="0.0" text="MY POSTS">
                      <font>
                         <Font name="Marlett" size="15.0" />
                      </font>
@@ -161,10 +181,10 @@
             </AnchorPane>
          </left>
          <top>
-            <AnchorPane prefHeight="100.0" prefWidth="1360.0" BorderPane.alignment="CENTER">
+            <AnchorPane prefHeight="100.0" prefWidth="1454.0" BorderPane.alignment="CENTER">
                <children>
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#6298bc" height="105.0" layoutY="-1.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1536.0" />
-                  <ImageView fitHeight="54.0" fitWidth="495.0" layoutX="535.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#6298bc" height="105.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1454.0" />
+                  <ImageView fitHeight="54.0" fitWidth="495.0" layoutX="491.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@Icons/1655483851403.png" />
                      </image>
@@ -174,27 +194,27 @@
                         <Image url="@Icons/PngItem_1352975.1.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="62.0" fitWidth="136.0" layoutX="205.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="62.0" fitWidth="136.0" layoutX="186.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@Icons/PngItem_1352975.3.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="81.0" fitWidth="126.0" layoutX="409.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="81.0" fitWidth="126.0" layoutX="368.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@Icons/PngItem_1352975.2.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="62.0" fitWidth="131.0" layoutX="1205.0" layoutY="19.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="62.0" fitWidth="131.0" layoutX="1144.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@Icons/PngItem_1352975.4.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="66.0" fitWidth="118.0" layoutX="1022.0" layoutY="19.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="66.0" fitWidth="118.0" layoutX="974.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@Icons/PngItem_1352975.5.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="81.0" fitWidth="126.0" layoutX="1396.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="81.0" fitWidth="126.0" layoutX="1314.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@Icons/PngItem_1352975.6.png" />
                      </image>

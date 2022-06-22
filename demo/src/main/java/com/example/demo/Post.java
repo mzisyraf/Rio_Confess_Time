@@ -7,6 +7,7 @@ public class Post {
     private int reply_id;
     private String date, time;
     private String imageURL;
+    private Byte image;
 
     public Post(int reply_id, String content, String imageURL, String date, String time, String userID ) {
         this.content = content;
@@ -15,6 +16,16 @@ public class Post {
         this.time = time;
         this.reply_id = reply_id;
         this.imageURL = imageURL;
+    }
+
+    public Post(int reply_id, int postID, String content, String userID,  String date, String time, Byte image) {
+        PostID = postID;
+        this.content = content;
+        this.userID = userID;
+        this.reply_id = reply_id;
+        this.date = date;
+        this.time = time;
+        this.image = image;
     }
 
     public String getDate() {

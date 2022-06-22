@@ -10,10 +10,10 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="864.0" prefWidth="1536.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.LoginPageNew">
+<AnchorPane prefHeight="841.0" prefWidth="1454.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.LoginPageNew">
    <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#071c34" height="864.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1536.0" />
-      <ImageView fitHeight="864.0" fitWidth="1536.0" opacity="0.14" pickOnBounds="true">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#071c34" height="841.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1454.0" />
+      <ImageView fitHeight="841.0" fitWidth="1454.0" opacity="0.14" pickOnBounds="true">
          <image>
             <Image url="@Icons/1e72e177da44eac61f206607a320d927.jpg" />
          </image>
@@ -23,29 +23,29 @@
             <Image url="@Icons/f0dcb36bfdea62047b3eb63d364121a3.gif" />
          </image>
       </ImageView>
-      <Button fx:id="userLoginButton" layoutX="631.0" layoutY="586.0" mnemonicParsing="false" onAction="#userLoginButtonClicked" text="USER LOGIN">
+      <Button fx:id="userLoginButton" layoutX="590.0" layoutY="575.0" mnemonicParsing="false" onAction="#userLoginButtonClicked" text="USER LOGIN">
          <font>
             <Font name="Marlett" size="15.0" />
          </font>
       </Button>
-      <ImageView fitHeight="150.0" layoutX="543.0" layoutY="253.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="150.0" layoutX="502.0" layoutY="242.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Icons/1655490941128.png" />
          </image>
       </ImageView>
-      <Text fill="#c0ced1" layoutX="622.0" layoutY="472.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID                 :   ">
+      <Text fill="#c0ced1" layoutX="581.0" layoutY="461.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID                 :   ">
          <font>
             <Font name="Marlett" size="20.0" />
          </font>
       </Text>
-      <Text fill="#c0ced1" layoutX="622.0" layoutY="506.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PASSWORD    :   ">
+      <Text fill="#c0ced1" layoutX="581.0" layoutY="495.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PASSWORD    :   ">
          <font>
             <Font name="Marlett" size="20.0" />
          </font>
       </Text>
-      <TextField fx:id="idLogin" layoutX="765.0" layoutY="451.0" />
-      <TextField fx:id="passwordLogin" layoutX="765.0" layoutY="485.0" />
-      <Button fx:id="adminLoginButton" layoutX="784.0" layoutY="586.0" mnemonicParsing="false" onAction="#adminLoginButtonClicked" text="ADMIN LOGIN">
+      <TextField fx:id="idLogin" layoutX="724.0" layoutY="440.0" />
+      <TextField fx:id="passwordLogin" layoutX="724.0" layoutY="474.0" />
+      <Button fx:id="adminLoginButton" layoutX="743.0" layoutY="575.0" mnemonicParsing="false" onAction="#adminLoginButtonClicked" text="ADMIN LOGIN">
          <font>
             <Font name="Marlett" size="15.0" />
          </font>
@@ -55,7 +55,7 @@
             <Image url="@Icons/angle-double-small-left.png" />
          </image>
       </ImageView>
-      <Label fx:id="loginErrorBanner" layoutX="653.0" layoutY="542.0" opacity="0.0" text="Invalid credentials! Please try again." textFill="RED">
+      <Label fx:id="loginErrorBanner" layoutX="612.0" layoutY="529.0" opacity="0.0" text="Invalid credentials! Please try again." textFill="RED">
          <font>
             <Font name="System Bold Italic" size="13.0" />
          </font>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+
+
+<AnchorPane prefHeight="660.0" prefWidth="1254.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.Replies">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#87b2cc" height="660.0" layoutX="1154.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="100.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#87b2cc" height="660.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="100.0" />
+      <ScrollPane layoutX="99.0" layoutY="1.0" prefHeight="660.0" prefWidth="1054.0">
+         <content>
+            <VBox fx:id="reply" alignment="CENTER" prefHeight="660.0" prefWidth="1054.0" />
+         </content>
+      </ScrollPane>
+   </children>
+</AnchorPane>

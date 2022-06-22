@@ -15,15 +15,20 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
+import java.time.Duration;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class UserPageNew implements Initializable {
-    private String userID, imageURL;
+    private String userID, imageURL = "0";
     private Queue<Post> waitingList;
     Queue<Post> waiting;
 
@@ -43,6 +48,9 @@ public class UserPageNew implements Initializable {
 
     @FXML
     private ScrollPane approvedConfessionsScroll;
+
+    @FXML
+    private Text userPosts;
 
     @FXML
     private DatePicker userDateSearch;
@@ -95,7 +103,110 @@ public class UserPageNew implements Initializable {
     }
     @FXML
     void userHomeClicked(MouseEvent event) {
+        approvedConfessions.getChildren().clear();
+        waiting = new Queue<>();
+        Timer time = new Timer(); // Instantiate Timer Object
+        ScheduledTask st = new ScheduledTask(waiting); // Instantiate ScheduledTask class
+        time.schedule(st, 0, 1000);
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/confession_time", "root", "root");
+            Statement statement =  con.createStatement();
+            ResultSet res = statement.executeQuery("SELECT * FROM submission");
+            while (res.next()){
+                Post confession = new Post(res.getInt(2),res.getInt(1),res.getString(3),res.getString(7),res.getString(5),res.getString(6),res.getByte(4));
+                if (res.getBytes(4)==null){
+                    try {
+                        FXMLLoader Loader = new FXMLLoader();
+                        Loader.setLocation(getClass().getResource("PostOnly.fxml"));
+                        VBox vBox;
+                        vBox = Loader.load();
+                        PostOnly postOnly = Loader.getController();
+                        postOnly.setData(confession);
+                        approvedConfessions.getChildren().add(vBox);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
 
+                }
+                else {
+                    try {
+                        FXMLLoader fxmlLoader = new FXMLLoader();
+                        fxmlLoader.setLocation(getClass().getResource("PostPicture.fxml"));
+                        VBox vBox;
+                        vBox = fxmlLoader.load();
+                        PostPicture postPicture = fxmlLoader.getController();
+                        postPicture.setData(confession);
+                        approvedConfessions.getChildren().add(vBox);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                }
+            }
+        }
+        catch (ClassNotFoundException e) {
+            System.out.println("Error 1");
+            System.out.println(e);
+        }
+        catch (SQLException e){
+            System.out.println("Error 2");
+            System.out.println(e);
+        }
+    }
+
+    @FXML
+    void userPostsClicked(MouseEvent event) {
+        approvedConfessions.getChildren().clear();
+        waiting = new Queue<>();
+        Timer time = new Timer(); // Instantiate Timer Object
+        ScheduledTask st = new ScheduledTask(waiting); // Instantiate ScheduledTask class
+        time.schedule(st, 0, 1000);
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/confession_time", "root", "root");
+            Statement statement =  con.createStatement();
+            ResultSet res = statement.executeQuery("SELECT * FROM submission where user = '"+userID+"'");
+            while (res.next()){
+                Post confession = new Post(res.getInt(2),res.getInt(1),res.getString(3),res.getString(7),res.getString(5),res.getString(6),res.getByte(4));
+                if (res.getBytes(4)==null){
+                    try {
+                        FXMLLoader Loader = new FXMLLoader();
+                        Loader.setLocation(getClass().getResource("PostOnly.fxml"));
+                        VBox vBox;
+                        vBox = Loader.load();
+                        PostOnly postOnly = Loader.getController();
+                        postOnly.setData(confession);
+                        approvedConfessions.getChildren().add(vBox);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                }
+                else {
+                    try {
+                        FXMLLoader fxmlLoader = new FXMLLoader();
+                        fxmlLoader.setLocation(getClass().getResource("PostPicture.fxml"));
+                        VBox vBox;
+                        vBox = fxmlLoader.load();
+                        PostPicture postPicture = fxmlLoader.getController();
+                        postPicture.setData(confession);
+                        approvedConfessions.getChildren().add(vBox);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                }
+            }
+        }
+        catch (ClassNotFoundException e) {
+            System.out.println("Error 1");
+            System.out.println(e);
+        }
+        catch (SQLException e){
+            System.out.println("Error 2");
+            System.out.println(e);
+        }
     }
 
     @FXML
@@ -110,37 +221,124 @@ public class UserPageNew implements Initializable {
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         FrontPageNew frontPageNew = Loader.getController();
         frontPageNew.setWaitingList(waiting);
-        Scene scene = new Scene(root, 1360, 695);
+        Scene scene = new Scene(root, 1454, 841);
         stage.setResizable(true);
         stage.setScene(scene);
         stage.setMaximized(true);
-        stage.setFullScreen(true);
         stage.setTitle("Login Page");
         stage.show();
     }
 
     @FXML
     void userReportClicked(ActionEvent event) {
+        String id_rep = this.userIdReport.getText();
+        int id_report = Integer.parseInt(id_rep);
+
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/confession_time", "root", "root");
+            Statement st =  con.createStatement();
+
+            PreparedStatement preparedStatement = con.prepareStatement("SELECT * FROM submission WHERE id_sub = ?");
+            preparedStatement.setInt(1, id_report);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if(resultSet.next()){
+                ResultSet rs = st.executeQuery("SELECT * FROM SUBMISSION where id_sub = "+ id_report +"");
+                while (rs.next()){
+                    int insert_data = st.executeUpdate("UPDATE SUBMISSION set report = 1 where id_sub = "+id_report+"");
+                }
+            }
+            else{
+                Stage stage;
+                Parent root;
+
+                stage = new Stage();
+                try {
+                    root = FXMLLoader.load(getClass().getResource("PopUp.fxml"));
+                    stage.setScene(new Scene(root));
+                    stage.initModality(Modality.APPLICATION_MODAL);
+                    stage.showAndWait();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+            preparedStatement.close();
+            resultSet.close();
+            con.close();
+
+        }
+        catch (ClassNotFoundException e) {
+            System.out.println("Error 1");
+            System.out.println(e);
+        }
+        catch (SQLException e){
+            System.out.println("Error 2");
+            System.out.println(e);
+        }
 
     }
 
+
     @FXML
     void userSearchClicked(ActionEvent event) {
-
+        String datefinal,dates;
+        //get params
+        String id = userIdSearch.getText();
+        if (id.equals("") || userIdSearch.getText().isEmpty() )
+            id="0";
+        if (userDateSearch.getValue()==null){
+            datefinal = "";
+        }
+        else {
+            //get date value and convert the format to dd/mm/yyyy
+            dates = String.valueOf(userDateSearch.getValue());
+            String[] newdate = dates.split("-");
+            StringBuilder date = new StringBuilder();
+            for(int i = newdate.length-1; i>=0; i--) {
+                date.append(newdate[i]);
+                if (i == 0)
+                    break;
+                date.append("/");
+            }
+            datefinal=String.valueOf(date);
+        }
+        int id_sub = Integer.parseInt(id);
+        //get keyword search
+        String key = userKeywordSearch.getText();
+        if (id_sub==0 && searchBC(datefinal,key))
+            searchBC(datefinal,key);
+        else if (key.equalsIgnoreCase("") && searchAB(id_sub,datefinal))
+            searchAB(id_sub,datefinal);
+        else if (datefinal.equalsIgnoreCase("") &&  searchAC(id_sub,key))
+            searchAC(id_sub,key);
+        else if (id_sub==0 && key.equalsIgnoreCase("") && searchdate(datefinal))
+            searchdate(datefinal);
+        else if (id_sub==0 && datefinal.equalsIgnoreCase("") && searchkeyword(key))
+            searchkeyword(key);
+        else if (datefinal.equalsIgnoreCase("") && key.equalsIgnoreCase("") && searchid(id_sub))
+            searchid(id_sub);
+        else if (!(datefinal.equalsIgnoreCase("")) && !(key.equalsIgnoreCase("")) && !(id_sub==0) && searchABC(id_sub,datefinal,key))
+            searchABC(id_sub,datefinal,key);
+        else{
+            noSearchResult.setOpacity(1);
+            userKeywordSearch.setText("");
+            userIdSearch.setText("");
+        }
     }
 
     @FXML
     void userSubmitConfessionClicked(ActionEvent event) {
-
         //initialise image variable
         imageURL = null;
         int id_rep = 0;
         //get inputs
-        String id_reply = String.valueOf(this.replyID);
+        String id_reply = this.replyID.getText();
         if (!(this.replyID.getText().trim().equalsIgnoreCase(""))) {
             id_rep = Integer.parseInt(id_reply);
         }
-        String content = String.valueOf(this.userPostConfession);
+        String content = this.userPostConfession.getText();
         String date = java.time.LocalDate.now().toString();
 
         //change the format of date to dd/mm/yyyy
@@ -167,296 +365,115 @@ public class UserPageNew implements Initializable {
         if (this.replyID.getText().isEmpty())
             id_rep = 0;
 
-        //create Post object and push into queue
-        Post newConfession = new Post(id_rep,content,imageURL,dates.toString(),times.toString(),this.userID);
-        waiting.enqueue(newConfession);
-        System.out.println(waiting.toString());
-    }
-
-    public static boolean searchid(){
-        Scanner z = new Scanner (System.in);
-        System.out.print("Please enter the id you wanna search: ");
-        int id_sub = z.nextInt(); //tukar jd getString, casting jadi integer then baru check in database
-
-        try{
+        //check for valid reply id
+        try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/confession_time", "root", "root");
             Statement st =  con.createStatement();
-
-            PreparedStatement preparedStatement = con.prepareStatement("SELECT * FROM submission WHERE id_sub = ?");
-            preparedStatement.setInt(1, id_sub);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            //if id exist, akan masuk if statement, kalau takde masuk else statement
-            if(resultSet.next()){
-                ResultSet rs = st.executeQuery("SELECT * FROM SUBMISSION where id_sub = "+ id_sub +"");
-                String r1 = "";
-                while (rs.next()){
-                    //this part untuk create post based on id yang dicari
-                    r1 = rs.getString("content"); //change to post object, can store in arraylist the object, then display all
-                    break;
-                }
-                //print the post in interface
-                System.out.println(r1);
-            }
-            //change to pop up
-            else{
-                System.out.println("The post you wanna find is not available."); //prompt if not available, post.setText("This room is unavailable at the selected time!");
-            }
+            //if no id reply
+            if (id_rep==0){
+                //create Post object and push into queue
+                Post newConfession = new Post(id_rep,content,imageURL,dates.toString(),times.toString(),this.userID);
 
 
-            preparedStatement.close();
-            resultSet.close();
-            con.close();
 
-        }
-        catch (ClassNotFoundException e) {
-            System.out.println("Error 1");
-            System.out.println(e);
-        }
-        catch (SQLException e){
-            System.out.println("Error 2");
-            System.out.println(e);
-        }
-        return true;
-    }
-
-//    public boolean submit(int id_rep, String content, String date){
-//        Scanner z = new Scanner (System.in);
-//        int checking = 0;
-//        String lol = "null";
-//        String image = z.nextLine(); //KIV, nak pakai code mai untuk auto catch URL
-//        //change the format of date to dd/mm/yyyy
-//        String[] newdate = date.split("-");
-//        StringBuilder dates = new StringBuilder();
-//        for(int i = newdate.length-1; i>=0; i--){
-//            dates.append(newdate[i]);
-//            if(i==0)
-//                break;
-//            dates.append("/");
-//        }
-//
-//        String time = java.time.LocalTime.now().toString(); //get localtime in string
-//        //change the format of time to hh:mm
-//        String[] newtime = time.split("[:.]");
-//        StringBuilder times = new StringBuilder();
-//        times.append(newtime[0]);
-//        times.append(":");
-//        times.append(newtime[1]);
-//
-//        //create Post object
-//        if (String.valueOf(id_rep).compareTo(lol)==0){
-//            Post newConfession = new Post(content , userID, String.valueOf(times), this.replyID);
-//        }
-//        else{
-//            Post newConfession = new Post(content , userID, String.valueOf(times),this.replyID);
-//        }
-//
-//        try{
-//            Class.forName("com.mysql.cj.jdbc.Driver");
-//            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/confession_time", "root", "root");
-//            Statement st =  con.createStatement();
-//
-//            if (image.equalsIgnoreCase(lol)){ //if no image is insert, then it will insert id_reply and content only
-//                PreparedStatement preparedStatement = con.prepareStatement("SELECT * FROM submission WHERE id_sub = ?");
-//                preparedStatement.setInt(1, id_rep);
-//                ResultSet resultSet = preparedStatement.executeQuery();
-//
-//                //if id_sub is valid, id_reply = id_sub that want to reply
-//                if(resultSet.next()){
-//                    int insert_data = st.executeUpdate("INSERT INTO submission (id_reply, content, date, time) VALUES (" + id_rep + ",'" +content+ "','" +dates+ "','" +times+ "');");
-//                }
-//                //if id_sub is not valid, id_reply = 0
-//                else{
-//                    id_rep = 0;
-//                    int insert_data = st.executeUpdate("INSERT INTO submission (id_reply, content, date, time) VALUES (" + id_rep + ",'" +content+"','" +dates+ "','" +times+ "');");
-//                }
-//
-//                preparedStatement.close();
-//                resultSet.close();
-//                con.close();
-//            }
-//
-//            // if image is inserted, then it will sent 3 data (id reply, content and image) , need to think about the ways to detect the directory is valid
-//            else {
-//                PreparedStatement preparedStatement = con.prepareStatement("SELECT * FROM submission WHERE id_sub = ?");
-//                preparedStatement.setInt(1, id_rep);
-//                ResultSet resultSet = preparedStatement.executeQuery();
-//
-//                if(resultSet.next()){
-//                    int insert_data = st.executeUpdate("INSERT INTO submission (id_reply, content, image) VALUES (" + id_rep + ",'" +content+"', '" +image+ "','" +dates+ "','" +times+ "');");
-//                }
-//                else{
-//                    id_rep = 0;
-//                    int insert_data = st.executeUpdate("INSERT INTO submission (id_reply, content, image) VALUES (" + id_rep + ",'" +content+"', '" +image+ "','" +dates+ "','" +times+ "');");
-//                }
-//
-//                preparedStatement.close();
-//                resultSet.close();
-//                con.close();
-//            }
-//
-//        }
-//        catch (ClassNotFoundException e) {
-//            System.out.println("Error 1");
-//            System.out.println(e);
-//        }
-//        catch (SQLException e){
-//            System.out.println("Error 2");
-//            System.out.println(e);
-//        }
-//        return true;
-//    }
-
-    public static boolean searchdate(){
-        Scanner z = new Scanner (System.in);
-        System.out.print("Please enter the date of the posts you wanna see (in format dd/mm/yyy): ");
-        String date = z.nextLine(); //get string date from calendar in UI
-
-        try{
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/confession_time", "root", "root");
-            Statement st =  con.createStatement();
-
-            PreparedStatement preparedStatement = con.prepareStatement("SELECT * FROM submission WHERE date = ?");
-            preparedStatement.setString(1, date);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            //if the date is valid
-            if(resultSet.next()){
-                ResultSet rs = st.executeQuery("SELECT * FROM SUBMISSION where date = '"+ date +"'");
-                String r1 = ""; //store each post in string, need to change based on UI
-                //while loop for display all post that having the same date as input
-                while (rs.next()){
-                    r1 = rs.getString("content"); //change to post object, can store in arraylist the object, then display all
-                    System.out.println(r1);
-                }
-            }
-            else{
-                System.out.println("The post you wanna find is not available."); //prompt if not available, post.setText("no post on that day");
-            }
-
-
-            preparedStatement.close();
-            resultSet.close();
-            con.close();
-
-        }
-        catch (ClassNotFoundException e) {
-            System.out.println("Error 1");
-            System.out.println(e);
-        }
-        catch (SQLException e){
-            System.out.println("Error 2");
-            System.out.println(e);
-        }
-        return true;
-    }
-
-    public static boolean searchkeyword(){
-        Scanner z = new Scanner (System.in);
-        System.out.print("Please enter the key you wanna search: ");
-        String key = z.nextLine(); //get the keyword from UI
-
-        try{
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/confession_time", "root", "root");
-            Statement st =  con.createStatement();
-            ResultSet resultSet = st.executeQuery(" SELECT * FROM confession.submission WHERE content LIKE '%"+key+"%'");
-
-            //if any keyword or char detected in content
-            if(resultSet.next()){
-                ResultSet rs = st.executeQuery(" SELECT * FROM confession.submission WHERE content LIKE '%"+key+"%'");
-                String r1 = ""; //change to post object, can store in arraylist the object, then display all
-                while (rs.next()){
-                    r1 = rs.getString("content");
-                    System.out.println(r1);
-                }
-            }
-            else{
-                System.out.println("The post you wanna find is not available."); //prompt if not available, post.setText("This room is unavailable at the selected time!");
-            }
-
-            resultSet.close();
-            con.close();
-
-        }
-        catch (ClassNotFoundException e) {
-            System.out.println("Error 1");
-            System.out.println(e);
-        }
-        catch (SQLException e){
-            System.out.println("Error 2");
-            System.out.println(e);
-        }
-        return true;
-    }
-
-    public static boolean batchremoval(){
-        Scanner z = new Scanner (System.in);
-        System.out.print("Please enter id post you wanna delete: ");
-        int post = z.nextInt();
-
-        try{
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/confession_time", "root", "root");
-            Statement st =  con.createStatement();
-            ResultSet resultSet = st.executeQuery(" SELECT * FROM confession.submission WHERE id_sub LIKE "+post+"");
-
-            if(resultSet.next()){
-                ResultSet rs = st.executeQuery(" SELECT * FROM confession.submission WHERE id_sub LIKE "+post+"");
-                int check;
-                while (rs.next()){
-                    check = rs.getInt("id_sub");
-                    remove(check); //call remove method
-                }
-            }
-            else{
-                System.out.println("The post you wanna find and delete is not available."); //prompt if not available, post.setText("This room is unavailable at the selected time!");
-            }
-
-            resultSet.close();
-            con.close();
-
-        }
-        catch (ClassNotFoundException e) {
-            System.out.println("Error 1");
-            System.out.println(e);
-        }
-        catch (SQLException e){
-            System.out.println("Error 2");
-            System.out.println(e);
-        }
-        return true;
-    }
-
-    public static int remove (int x){
-        try{
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/confession_time", "root", "root");
-            Statement st =  con.createStatement();
-            ResultSet resultSet = st.executeQuery(" SELECT * FROM confession.submission WHERE id_reply LIKE "+x+"");
-
-            if(resultSet.next()){
-                ResultSet rs = st.executeQuery(" SELECT * FROM confession.submission WHERE id_reply LIKE "+x+"");
-                int check;
-                while (rs.next()){
-                    check = rs.getInt("id_sub");
-                    if(remove(check)==1){ //call remove method
-                        remove(x); //call remove method
+                if (spamcheck(newConfession)){
+                    Stage stage;
+                    Parent root;
+                    userPostConfession.setText("");
+                    replyID.setText("");
+                    System.out.println(waiting.toString());
+                    stage = new Stage();
+                    try {
+                        root = FXMLLoader.load(getClass().getResource("PopUpReject.fxml"));
+                        stage.setScene(new Scene(root));
+                        stage.initModality(Modality.APPLICATION_MODAL);
+                        stage.showAndWait();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
                     }
-                    else{
-                        remove(check); //call remove method
+                }
+                else {
+                    waiting.enqueue(newConfession);
+                    System.out.println(waiting.toString());
+                    userPostConfession.setText("");
+                    replyID.setText("");
+                    Stage stage;
+                    Parent root;
+
+                    stage = new Stage();
+                    try {
+                        root = FXMLLoader.load(getClass().getResource("PopUpSubmit.fxml"));
+                        stage.setScene(new Scene(root));
+                        stage.initModality(Modality.APPLICATION_MODAL);
+                        stage.showAndWait();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+
+            }
+            //if there is id reply
+            else {
+                PreparedStatement preparedStatement = con.prepareStatement("SELECT * FROM submission WHERE id_sub = ?");
+                preparedStatement.setInt(1,id_rep );
+                ResultSet resultSet = preparedStatement.executeQuery();
+                //if the reply id is valid
+                if (resultSet.next()){
+                    Post newConfession = new Post(id_rep,content,imageURL,dates.toString(),times.toString(),this.userID);
+                    if (spamcheck(newConfession)){
+                        Stage stage;
+                        Parent root;
+                        userPostConfession.setText("");
+                        replyID.setText("");
+                        System.out.println(waiting.toString());
+                        stage = new Stage();
+                        try {
+                            root = FXMLLoader.load(getClass().getResource("PopUpReject.fxml"));
+                            stage.setScene(new Scene(root));
+                            stage.initModality(Modality.APPLICATION_MODAL);
+                            stage.showAndWait();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                    else {
+                        waiting.enqueue(newConfession);
+                        System.out.println(waiting.toString());
+                        userPostConfession.setText("");
+                        replyID.setText("");
+                        Stage stage;
+                        Parent root;
+
+                        stage = new Stage();
+                        try {
+                            root = FXMLLoader.load(getClass().getResource("PopUpSubmit.fxml"));
+                            stage.setScene(new Scene(root));
+                            stage.initModality(Modality.APPLICATION_MODAL);
+                            stage.showAndWait();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+
+                }
+                //if reply id is not valid
+                else {
+                    Stage stage;
+                    Parent root;
+
+                    stage = new Stage();
+                    try {
+                        root = FXMLLoader.load(getClass().getResource("PopUp.fxml"));
+                        stage.setScene(new Scene(root));
+                        stage.initModality(Modality.APPLICATION_MODAL);
+                        stage.showAndWait();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
                     }
                 }
             }
-            else{
-                st.executeUpdate(" DELETE FROM confession.submission WHERE id_sub LIKE "+x+""); //delete the entire row
-                return 1;
-            }
 
-            resultSet.close();
-            con.close();
 
         }
         catch (ClassNotFoundException e) {
@@ -467,7 +484,356 @@ public class UserPageNew implements Initializable {
             System.out.println("Error 2");
             System.out.println(e);
         }
-        return 1;
+
+    }
+    public boolean searchAB(int id, String date){
+        approvedConfessions.getChildren().clear();
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/confession_time", "root", "root");
+            Statement statement =  con.createStatement();
+            ResultSet res = statement.executeQuery("SELECT * FROM submission where id_sub = "+id+" and date = '"+date+"'");
+
+            while (res.next()){
+                Post confession = new Post(res.getInt(2),res.getInt(1),res.getString(3),res.getString(7),res.getString(5),res.getString(6),res.getByte(4));
+                if (res.getBytes(4)==null){
+                    try {
+                        FXMLLoader Loader = new FXMLLoader();
+                        Loader.setLocation(getClass().getResource("PostOnly.fxml"));
+                        VBox vBox;
+                        vBox = Loader.load();
+                        PostOnly postOnly = Loader.getController();
+                        postOnly.setData(confession);
+                        approvedConfessions.getChildren().add(vBox);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                }
+                else{
+                    try {
+                        FXMLLoader fxmlLoader = new FXMLLoader();
+                        fxmlLoader.setLocation(getClass().getResource("PostPicture.fxml"));
+                        VBox vBox;
+                        vBox = fxmlLoader.load();
+                        PostPicture postPicture = fxmlLoader.getController();
+                        postPicture.setData(confession);
+                        approvedConfessions.getChildren().add(vBox);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        }
+        catch (ClassNotFoundException e) {
+            System.out.println("Error 1");
+            System.out.println(e);
+        }
+        catch (SQLException e){
+            System.out.println("Error 2");
+            System.out.println(e);
+        }
+        return true;
+    }
+    public boolean searchAC(int id, String key){
+        approvedConfessions.getChildren().clear();
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/confession_time", "root", "root");
+            Statement statement =  con.createStatement();
+            ResultSet res = statement.executeQuery("SELECT * FROM submission where id_sub = "+id+" and content LIKE '%"+key+"%'");
+
+            while (res.next()){
+                Post confession = new Post(res.getInt(2),res.getInt(1),res.getString(3),res.getString(7),res.getString(5),res.getString(6),res.getByte(4));
+                if (res.getBytes(4)==null){
+                    try {
+                        FXMLLoader Loader = new FXMLLoader();
+                        Loader.setLocation(getClass().getResource("PostOnly.fxml"));
+                        VBox vBox;
+                        vBox = Loader.load();
+                        PostOnly postOnly = Loader.getController();
+                        postOnly.setData(confession);
+                        approvedConfessions.getChildren().add(vBox);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                }
+                else{
+                    try {
+                        FXMLLoader fxmlLoader = new FXMLLoader();
+                        fxmlLoader.setLocation(getClass().getResource("PostPicture.fxml"));
+                        VBox vBox;
+                        vBox = fxmlLoader.load();
+                        PostPicture postPicture = fxmlLoader.getController();
+                        postPicture.setData(confession);
+                        approvedConfessions.getChildren().add(vBox);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        }
+        catch (ClassNotFoundException e) {
+            System.out.println("Error 1");
+            System.out.println(e);
+        }
+        catch (SQLException e){
+            System.out.println("Error 2");
+            System.out.println(e);
+        }
+        return true;
+    }
+    public boolean searchBC(String date, String key){
+        approvedConfessions.getChildren().clear();
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/confession_time", "root", "root");
+            Statement statement =  con.createStatement();
+            ResultSet res = statement.executeQuery("SELECT * FROM submission where date = '"+date+"' and content LIKE '%"+key+"%'");
+
+            while (res.next()){
+                Post confession = new Post(res.getInt(2),res.getInt(1),res.getString(3),res.getString(7),res.getString(5),res.getString(6),res.getByte(4));
+                if (res.getBytes(4)==null){
+                    try {
+                        FXMLLoader Loader = new FXMLLoader();
+                        Loader.setLocation(getClass().getResource("PostOnly.fxml"));
+                        VBox vBox;
+                        vBox = Loader.load();
+                        PostOnly postOnly = Loader.getController();
+                        postOnly.setData(confession);
+                        approvedConfessions.getChildren().add(vBox);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                }
+                else{
+                    try {
+                        FXMLLoader fxmlLoader = new FXMLLoader();
+                        fxmlLoader.setLocation(getClass().getResource("PostPicture.fxml"));
+                        VBox vBox;
+                        vBox = fxmlLoader.load();
+                        PostPicture postPicture = fxmlLoader.getController();
+                        postPicture.setData(confession);
+                        approvedConfessions.getChildren().add(vBox);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        }
+        catch (ClassNotFoundException e) {
+            System.out.println("Error 1");
+            System.out.println(e);
+        }
+        catch (SQLException e){
+            System.out.println("Error 2");
+            System.out.println(e);
+        }
+        return true;
+    }
+    public boolean searchABC(int id, String date, String key){
+        approvedConfessions.getChildren().clear();
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/confession_time", "root", "root");
+            Statement statement =  con.createStatement();
+            ResultSet res = statement.executeQuery("SELECT * FROM submission where id_sub = "+id+" and date = '"+date+"' and content LIKE '%"+key+"%'");
+
+            while (res.next()){
+                Post confession = new Post(res.getInt(2),res.getInt(1),res.getString(3),res.getString(7),res.getString(5),res.getString(6),res.getByte(4));
+                if (res.getBytes(4)==null){
+                    try {
+                        FXMLLoader Loader = new FXMLLoader();
+                        Loader.setLocation(getClass().getResource("PostOnly.fxml"));
+                        VBox vBox;
+                        vBox = Loader.load();
+                        PostOnly postOnly = Loader.getController();
+                        postOnly.setData(confession);
+                        approvedConfessions.getChildren().add(vBox);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                }
+                else{
+                    try {
+                        FXMLLoader fxmlLoader = new FXMLLoader();
+                        fxmlLoader.setLocation(getClass().getResource("PostPicture.fxml"));
+                        VBox vBox;
+                        vBox = fxmlLoader.load();
+                        PostPicture postPicture = fxmlLoader.getController();
+                        postPicture.setData(confession);
+                        approvedConfessions.getChildren().add(vBox);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        }
+        catch (ClassNotFoundException e) {
+            System.out.println("Error 1");
+            System.out.println(e);
+        }
+        catch (SQLException e){
+            System.out.println("Error 2");
+            System.out.println(e);
+        }
+        return true;
+    }
+
+    public boolean searchid(int x){
+        approvedConfessions.getChildren().clear();
+        int id_sub = x;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/confession_time", "root", "root");
+            Statement statement =  con.createStatement();
+            ResultSet res = statement.executeQuery("SELECT * FROM submission where id_sub = "+id_sub+"");
+
+            while (res.next()){
+                Post confession = new Post(res.getInt(2),res.getInt(1),res.getString(3),res.getString(7),res.getString(5),res.getString(6),res.getByte(4));
+                if (res.getBytes(4)==null){
+                    try {
+                        FXMLLoader Loader = new FXMLLoader();
+                        Loader.setLocation(getClass().getResource("PostOnly.fxml"));
+                        VBox vBox;
+                        vBox = Loader.load();
+                        PostOnly postOnly = Loader.getController();
+                        postOnly.setData(confession);
+                        approvedConfessions.getChildren().add(vBox);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                }
+                else{
+                    try {
+                        FXMLLoader fxmlLoader = new FXMLLoader();
+                        fxmlLoader.setLocation(getClass().getResource("PostPicture.fxml"));
+                        VBox vBox;
+                        vBox = fxmlLoader.load();
+                        PostPicture postPicture = fxmlLoader.getController();
+                        postPicture.setData(confession);
+                        approvedConfessions.getChildren().add(vBox);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        }
+        catch (ClassNotFoundException e) {
+            System.out.println("Error 1");
+            System.out.println(e);
+        }
+        catch (SQLException e){
+            System.out.println("Error 2");
+            System.out.println(e);
+        }
+        return true;
+    }
+
+    public boolean searchdate(String x){
+        approvedConfessions.getChildren().clear();
+        String date = x;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/confession_time", "root", "root");
+            Statement statement =  con.createStatement();
+            ResultSet res = statement.executeQuery("SELECT * FROM submission where date= '"+date+"'");
+            while (res.next()){
+                Post confession = new Post(res.getInt(2),res.getInt(1),res.getString(3),res.getString(7),res.getString(5),res.getString(6),res.getByte(4));
+                if (res.getBytes(4)==null){
+                    try {
+                        FXMLLoader Loader = new FXMLLoader();
+                        Loader.setLocation(getClass().getResource("PostOnly.fxml"));
+                        VBox vBox;
+                        vBox = Loader.load();
+                        PostOnly postOnly = Loader.getController();
+                        postOnly.setData(confession);
+                        approvedConfessions.getChildren().add(vBox);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                }
+                else {
+                    try {
+                        FXMLLoader fxmlLoader = new FXMLLoader();
+                        fxmlLoader.setLocation(getClass().getResource("PostPicture.fxml"));
+                        VBox vBox;
+                        vBox = fxmlLoader.load();
+                        PostPicture postPicture = fxmlLoader.getController();
+                        postPicture.setData(confession);
+                        approvedConfessions.getChildren().add(vBox);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                }
+            }
+        }
+        catch (ClassNotFoundException e) {
+            System.out.println("Error 1");
+            System.out.println(e);
+        }
+        catch (SQLException e){
+            System.out.println("Error 2");
+            System.out.println(e);
+        }
+        return true;
+    }
+
+    public boolean searchkeyword(String x){
+        approvedConfessions.getChildren().clear();
+        String key = x;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/confession_time", "root", "root");
+            Statement statement =  con.createStatement();
+            ResultSet res = statement.executeQuery(" SELECT * FROM submission WHERE content LIKE '%"+key+"%'");
+            while (res.next()){
+                Post confession = new Post(res.getInt(2),res.getInt(1),res.getString(3),res.getString(7),res.getString(5),res.getString(6),res.getByte(4));
+                if (res.getBytes(4)==null){
+                    try {
+                        FXMLLoader Loader = new FXMLLoader();
+                        Loader.setLocation(getClass().getResource("PostOnly.fxml"));
+                        VBox vBox;
+                        vBox = Loader.load();
+                        PostOnly postOnly = Loader.getController();
+                        postOnly.setData(confession);
+                        approvedConfessions.getChildren().add(vBox);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                }
+                else {
+                    try {
+                        FXMLLoader fxmlLoader = new FXMLLoader();
+                        fxmlLoader.setLocation(getClass().getResource("PostPicture.fxml"));
+                        VBox vBox;
+                        vBox = fxmlLoader.load();
+                        PostPicture postPicture = fxmlLoader.getController();
+                        postPicture.setData(confession);
+                        approvedConfessions.getChildren().add(vBox);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                }
+            }
+        }
+        catch (ClassNotFoundException e) {
+            System.out.println("Error 1");
+            System.out.println(e);
+        }
+        catch (SQLException e){
+            System.out.println("Error 2");
+            System.out.println(e);
+        }
+        return true;
     }
 
 
@@ -492,6 +858,7 @@ public class UserPageNew implements Initializable {
 
 
             String url=file.getAbsolutePath();
+            System.out.println(url);
             imageURL = url;
         }};
 
@@ -501,5 +868,66 @@ public class UserPageNew implements Initializable {
         Timer time = new Timer(); // Instantiate Timer Object
         ScheduledTask st = new ScheduledTask(waiting); // Instantiate ScheduledTask class
         time.schedule(st, 0, 1000);
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/confession_time", "root", "root");
+            Statement statement =  con.createStatement();
+            ResultSet res = statement.executeQuery("SELECT * FROM submission");
+            while (res.next()){
+                Post confession = new Post(res.getInt(2),res.getInt(1),res.getString(3),res.getString(7),res.getString(5),res.getString(6),res.getByte(4));
+                if (res.getBytes(4)==null){
+                    try {
+                        FXMLLoader Loader = new FXMLLoader();
+                        Loader.setLocation(getClass().getResource("PostOnly.fxml"));
+                        VBox vBox;
+                        vBox = Loader.load();
+                        PostOnly postOnly = Loader.getController();
+                        postOnly.setData(confession);
+                        approvedConfessions.getChildren().add(vBox);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                }
+                else {
+                    try {
+                        FXMLLoader fxmlLoader = new FXMLLoader();
+                        fxmlLoader.setLocation(getClass().getResource("PostPicture.fxml"));
+                        VBox vBox;
+                        vBox = fxmlLoader.load();
+                        PostPicture postPicture = fxmlLoader.getController();
+                        postPicture.setData(confession);
+                        approvedConfessions.getChildren().add(vBox);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                }
+            }
+        }
+        catch (ClassNotFoundException e) {
+            System.out.println("Error 1");
+            System.out.println(e);
+        }
+        catch (SQLException e){
+            System.out.println("Error 2");
+            System.out.println(e);
+        }
+    }
+
+    public boolean spamcheck(Post check){
+        int queueLength = waiting.getSize();
+        for (int i=0 ; i<queueLength ; i++){
+            Post post = waiting.getElement(i);
+            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+            LocalTime oldPost = LocalTime.parse(post.getTime(),dateTimeFormatter);
+            LocalTime newPost = LocalTime.parse(check.getTime(),dateTimeFormatter);
+//            System.out.println(dateTimeFormatter.format(now));
+//            System.out.println(waiting.getSize());
+            Duration diff = Duration.between(oldPost,newPost);
+            if ((check.getContent().equalsIgnoreCase(post.getContent())) && (diff.compareTo(Duration.ofSeconds(60))<=0) && (post.getUserID().compareTo(check.getUserID())==0))
+                return true;
+        }
+             return false;
     }
 }

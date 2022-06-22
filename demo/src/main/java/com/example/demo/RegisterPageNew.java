@@ -12,11 +12,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
-import java.util.LinkedList;
 import java.util.ResourceBundle;
 import java.util.Timer;
 
@@ -67,8 +68,19 @@ public class RegisterPageNew implements Initializable {
                 //if no then insert the data into the user database table and prompt the successful registration and transfer to CustomerMain UI
                 int executeUpdate = st.executeUpdate("INSERT INTO user (userID, password, class) VALUES ('" + userID + "','" + password +"', 1)");
                 //System.out.println("Account successfully registered!");
-                //go to login page
+                Stage stage;
                 Parent root = null;
+
+                stage = new Stage();
+                try {
+                    root = FXMLLoader.load(getClass().getResource("PopUpRegister.fxml"));
+                    stage.setScene(new Scene(root));
+                    stage.initModality(Modality.APPLICATION_MODAL);
+                    stage.showAndWait();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                //go to login page
                 FXMLLoader Loader = new FXMLLoader();
                 Loader.setLocation(getClass().getResource("LoginPageNew.fxml"));
                 try {
@@ -78,11 +90,10 @@ public class RegisterPageNew implements Initializable {
                 stage = (Stage)((Node)event.getSource()).getScene().getWindow();
                 LoginPageNew loginPageNew = Loader.getController();
                 loginPageNew.setWaitingList(waiting);
-                Scene scene = new Scene(root, 1360, 695);
+                Scene scene = new Scene(root, 1454, 841);
                 stage.setResizable(true);
                 stage.setScene(scene);
                 stage.setMaximized(true);
-                stage.setFullScreen(true);
                 stage.setTitle("Login Page");
                 stage.show();
             }
@@ -109,11 +120,10 @@ public class RegisterPageNew implements Initializable {
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         FrontPageNew frontPageNew = Loader.getController();
         frontPageNew.setWaitingList(waiting);
-        Scene scene = new Scene(root, 1360, 695);
+        Scene scene = new Scene(root, 1454, 841);
         stage.setResizable(true);
         stage.setScene(scene);
         stage.setMaximized(true);
-        stage.setFullScreen(true);
         stage.setTitle("Login Page");
         stage.show();
     }

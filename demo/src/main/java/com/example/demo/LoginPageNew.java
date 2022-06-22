@@ -12,8 +12,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
 import java.util.LinkedList;
@@ -57,29 +59,30 @@ public class LoginPageNew implements Initializable {
             Statement st = con.createStatement();
             //check if credentials are valid
             ResultSet res = st.executeQuery("SELECT * FROM user where userID='"
-                            +String.valueOf(this.idLogin)+"' AND password = '"
-                            +String.valueOf(this.passwordLogin)+"' AND class = 0");
+                            +this.idLogin.getText()+"' AND password = '"
+                            +this.passwordLogin.getText()+"' AND class = 0");
             if (res.next()){
                 /**
                  * enter admin page
                  */
                 Parent root = null;
-                FXMLLoader Loader = new FXMLLoader();
-                Loader.setLocation(getClass().getResource("AdminPageNew.fxml"));
+
                 try {
+                    FXMLLoader Loader = new FXMLLoader();
+                    Loader.setLocation(getClass().getResource("AdminPageNew.fxml"));
                     root = Loader.load();
+                    stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+                    AdminPageNew adminPageNew = Loader.getController();
+                    adminPageNew.setWaitingList(waiting);
+                    Scene scene = new Scene(root, 1454, 841);
+                    stage.setResizable(true);
+                    stage.setMaximized(true);
+                    stage.setScene(scene);
+                    stage.setTitle("Admin Page");
+                    stage.show();
                 } catch (Exception e) {
                 }
-                stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-                AdminPageNew adminPageNew = Loader.getController();
-                adminPageNew.setWaitingList(waiting);
-                Scene scene = new Scene(root, 1360, 695);
-                stage.setResizable(true);
-                stage.setMaximized(true);
-                stage.setFullScreen(true);
-                stage.setScene(scene);
-                stage.setTitle("Admin Page");
-                stage.show();
+
             }
             else {
                 loginErrorBanner.setOpacity(1);
@@ -114,10 +117,9 @@ public class LoginPageNew implements Initializable {
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         FrontPageNew frontPageNew = Loader.getController();
         frontPageNew.setWaitingList(waiting);
-        Scene scene = new Scene(root, 1360, 695);
+        Scene scene = new Scene(root, 1454, 841);
         stage.setResizable(true);
         stage.setMaximized(true);
-        stage.setFullScreen(true);
         stage.setScene(scene);
         stage.setTitle("Login Page");
         stage.show();
@@ -140,47 +142,50 @@ public class LoginPageNew implements Initializable {
                     /**
                      * enter  normal user page
                      */
-                    Parent root = null;
-                    FXMLLoader Loader = new FXMLLoader();
-                    Loader.setLocation(getClass().getResource("UserPageNew.fxml"));
-                    try {
+                    try{
+                        AnchorPane root = null;
+                        FXMLLoader Loader = new FXMLLoader();
+                        Loader.setLocation(getClass().getResource("UserPageNew.fxml"));
                         root = Loader.load();
-                    } catch (Exception e) {
+                        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+                        UserPageNew userPageNew = Loader.getController();
+                        userPageNew.setUserID(this.idLogin.getText());
+                        userPageNew.setWaitingList(waiting);
+                        Scene scene = new Scene(root, 1454, 841);
+                        stage.setResizable(true);
+                        stage.setMaximized(true);
+                        stage.setScene(scene);
+                        stage.setTitle("User Page");
+                        stage.show();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
                     }
-                    stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-                    UserPageNew userPageNew = Loader.getController();
-                    userPageNew.setUserID(String.valueOf(this.idLogin));
-                    userPageNew.setWaitingList(waiting);
-                    Scene scene = new Scene(root, 1360, 695);
-                    stage.setResizable(true);
-                    stage.setMaximized(true);
-                    stage.setFullScreen(true);
-                    stage.setScene(scene);
-                    stage.setTitle("User Page");
-                    stage.show();
                 }
                 else if(res.getInt(3) == 2){
                     /**
                      * enter  blocked user page
                      */
-                    Parent root = null;
-                    FXMLLoader Loader = new FXMLLoader();
-                    Loader.setLocation(getClass().getResource("UserPageNew.fxml"));
+
+                    System.out.println("test");
                     try {
+                        System.out.println("blocked user");
+                        AnchorPane root = null;
+                        FXMLLoader Loader = new FXMLLoader();
+                        Loader.setLocation(getClass().getResource("BlockedUserPageNew.fxml"));
                         root = Loader.load();
+                        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+                        BlockedUserPageNew blockedUserPageNewUserPageNew = Loader.getController();
+                        blockedUserPageNewUserPageNew.setUserID(this.idLogin.getText());
+                        blockedUserPageNewUserPageNew.setWaitingList(waiting);
+                        Scene scene = new Scene(root, 1454, 841);
+                        stage.setResizable(true);
+                        stage.setMaximized(true);
+                        stage.setScene(scene);
+                        stage.setTitle("User Page");
+                        stage.show();
                     } catch (Exception e) {
                     }
-                    BlockedUserPageNew blockedUserPageNew = Loader.getController();
-                    blockedUserPageNew.setUserID(String.valueOf(idLogin));
-                    blockedUserPageNew.setWaitingList(waiting);
-                    stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-                    Scene scene = new Scene(root, 1360, 695);
-                    stage.setResizable(true);
-                    stage.setMaximized(true);
-                    stage.setFullScreen(true);
-                    stage.setScene(scene);
-                    stage.setTitle("User Page");
-                    stage.show();
+
                 }
 
             }

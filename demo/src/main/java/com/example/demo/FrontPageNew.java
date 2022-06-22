@@ -8,16 +8,19 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-
 import java.net.URL;
-import java.util.LinkedList;
 import java.util.ResourceBundle;
 import java.util.Timer;
 
 public class FrontPageNew implements Initializable {
     Stage stage;
     private Queue<Post> waitingList;
+
+    @FXML
+    private ImageView shutDownButton;
 
     @FXML
     private Button toLoginInterface;
@@ -46,10 +49,9 @@ public class FrontPageNew implements Initializable {
         LoginPageNew loginPageNew = Loader.getController();
         loginPageNew.setWaitingList(waiting);
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root, 1360, 695);
+        Scene scene = new Scene(root, 1454, 841);
         stage.setResizable(true);
         stage.setScene(scene);
-        stage.setFullScreen(true);
         stage.setTitle("Login Page");
         stage.show();
     }
@@ -67,12 +69,19 @@ public class FrontPageNew implements Initializable {
         registerPageNew.setWaitingList(waiting);
         root=Loader.getRoot();
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root, 1360, 695);
+        Scene scene = new Scene(root, 1454, 841);
         stage.setResizable(true);
         stage.setScene(scene);
-        stage.setFullScreen(true);
         stage.setTitle("Register Page");
         stage.show();
+    }
+
+    @FXML
+    void shutDownButtonClicked(MouseEvent event){
+        Stage thisStage = new Stage();
+        thisStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        thisStage.close();
+        System.exit(0);
     }
 
     @Override
