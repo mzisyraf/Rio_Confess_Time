@@ -134,11 +134,6 @@
                         <Font name="System Bold Italic" size="13.0" />
                      </font>
                   </Label>
-                  <Label fx:id="noReportId" layoutX="68.0" layoutY="535.0" opacity="0.0" text="Invalid ID." textFill="RED">
-                     <font>
-                        <Font name="System Bold Italic" size="13.0" />
-                     </font>
-                  </Label>
                </children>
             </AnchorPane>
          </right>
@@ -176,6 +171,11 @@
                         <Font name="Marlett" size="15.0" />
                      </font>
                   </Text>
+                  <Button fx:id="userSort" layoutX="28.0" layoutY="228.0" mnemonicParsing="false" onAction="#userSortClicked" text="Sort Latest - Oldest">
+                     <font>
+                        <Font name="Marlett" size="15.0" />
+                     </font>
+                  </Button>
                </children>
             </AnchorPane>
          </left>

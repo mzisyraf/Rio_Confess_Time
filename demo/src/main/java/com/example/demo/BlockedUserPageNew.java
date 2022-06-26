@@ -106,8 +106,13 @@ public class BlockedUserPageNew implements Initializable {
             Statement statement =  con.createStatement();
             ResultSet res = statement.executeQuery("SELECT * FROM submission");
             while (res.next()){
-                Post confession = new Post(res.getInt(2),res.getInt(1),res.getString(3),res.getString(7),res.getString(5),res.getString(6),res.getByte(4));
-                if (res.getBytes(4)==null){
+                Post confession = new Post(res.getInt(2),
+                        res.getInt(1),
+                        res.getString(3),
+                        res.getString(7),
+                        res.getString(5),
+                        res.getString(6),
+                        res.getByte(4));
                     try {
                         FXMLLoader Loader = new FXMLLoader();
                         Loader.setLocation(getClass().getResource("PostOnly.fxml"));
@@ -120,21 +125,6 @@ public class BlockedUserPageNew implements Initializable {
                         throw new RuntimeException(e);
                     }
 
-                }
-                else {
-                    try {
-                        FXMLLoader fxmlLoader = new FXMLLoader();
-                        fxmlLoader.setLocation(getClass().getResource("PostPicture.fxml"));
-                        VBox vBox;
-                        vBox = fxmlLoader.load();
-                        PostPicture postPicture = fxmlLoader.getController();
-                        postPicture.setData(confession);
-                        approvedConfessions.getChildren().add(vBox);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-
-                }
             }
         }
         catch (ClassNotFoundException e) {
@@ -284,8 +274,13 @@ public class BlockedUserPageNew implements Initializable {
             ResultSet res = statement.executeQuery("SELECT * FROM submission where id_sub = "+id+" and date = '"+date+"'");
 
             while (res.next()){
-                Post confession = new Post(res.getInt(2),res.getInt(1),res.getString(3),res.getString(7),res.getString(5),res.getString(6),res.getByte(4));
-                if (res.getBytes(4)==null){
+                Post confession = new Post(res.getInt(2),
+                        res.getInt(1),
+                        res.getString(3),
+                        res.getString(7),
+                        res.getString(5),
+                        res.getString(6),
+                        res.getByte(4));
                     try {
                         FXMLLoader Loader = new FXMLLoader();
                         Loader.setLocation(getClass().getResource("PostOnly.fxml"));
@@ -297,21 +292,7 @@ public class BlockedUserPageNew implements Initializable {
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
-
-                }
-                else{
-                    try {
-                        FXMLLoader fxmlLoader = new FXMLLoader();
-                        fxmlLoader.setLocation(getClass().getResource("PostPicture.fxml"));
-                        VBox vBox;
-                        vBox = fxmlLoader.load();
-                        PostPicture postPicture = fxmlLoader.getController();
-                        postPicture.setData(confession);
-                        approvedConfessions.getChildren().add(vBox);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
+ 
             }
         }
         catch (ClassNotFoundException e) {
@@ -333,8 +314,13 @@ public class BlockedUserPageNew implements Initializable {
             ResultSet res = statement.executeQuery("SELECT * FROM submission where id_sub = "+id+" and content LIKE '%"+key+"%'");
 
             while (res.next()){
-                Post confession = new Post(res.getInt(2),res.getInt(1),res.getString(3),res.getString(7),res.getString(5),res.getString(6),res.getByte(4));
-                if (res.getBytes(4)==null){
+                Post confession = new Post(res.getInt(2),
+                        res.getInt(1),
+                        res.getString(3),
+                        res.getString(7),
+                        res.getString(5),
+                        res.getString(6),
+                        res.getByte(4));
                     try {
                         FXMLLoader Loader = new FXMLLoader();
                         Loader.setLocation(getClass().getResource("PostOnly.fxml"));
@@ -346,21 +332,7 @@ public class BlockedUserPageNew implements Initializable {
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
-
-                }
-                else{
-                    try {
-                        FXMLLoader fxmlLoader = new FXMLLoader();
-                        fxmlLoader.setLocation(getClass().getResource("PostPicture.fxml"));
-                        VBox vBox;
-                        vBox = fxmlLoader.load();
-                        PostPicture postPicture = fxmlLoader.getController();
-                        postPicture.setData(confession);
-                        approvedConfessions.getChildren().add(vBox);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
+ 
             }
         }
         catch (ClassNotFoundException e) {
@@ -382,8 +354,13 @@ public class BlockedUserPageNew implements Initializable {
             ResultSet res = statement.executeQuery("SELECT * FROM submission where date = '"+date+"' and content LIKE '%"+key+"%'");
 
             while (res.next()){
-                Post confession = new Post(res.getInt(2),res.getInt(1),res.getString(3),res.getString(7),res.getString(5),res.getString(6),res.getByte(4));
-                if (res.getBytes(4)==null){
+                Post confession = new Post(res.getInt(2),
+                        res.getInt(1),
+                        res.getString(3),
+                        res.getString(7),
+                        res.getString(5),
+                        res.getString(6),
+                        res.getByte(4));
                     try {
                         FXMLLoader Loader = new FXMLLoader();
                         Loader.setLocation(getClass().getResource("PostOnly.fxml"));
@@ -395,21 +372,7 @@ public class BlockedUserPageNew implements Initializable {
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
-
-                }
-                else{
-                    try {
-                        FXMLLoader fxmlLoader = new FXMLLoader();
-                        fxmlLoader.setLocation(getClass().getResource("PostPicture.fxml"));
-                        VBox vBox;
-                        vBox = fxmlLoader.load();
-                        PostPicture postPicture = fxmlLoader.getController();
-                        postPicture.setData(confession);
-                        approvedConfessions.getChildren().add(vBox);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
+ 
             }
         }
         catch (ClassNotFoundException e) {
@@ -431,8 +394,13 @@ public class BlockedUserPageNew implements Initializable {
             ResultSet res = statement.executeQuery("SELECT * FROM submission where id_sub = "+id+" and date = '"+date+"' and content LIKE '%"+key+"%'");
 
             while (res.next()){
-                Post confession = new Post(res.getInt(2),res.getInt(1),res.getString(3),res.getString(7),res.getString(5),res.getString(6),res.getByte(4));
-                if (res.getBytes(4)==null){
+                Post confession = new Post(res.getInt(2),
+                        res.getInt(1),
+                        res.getString(3),
+                        res.getString(7),
+                        res.getString(5),
+                        res.getString(6),
+                        res.getByte(4));
                     try {
                         FXMLLoader Loader = new FXMLLoader();
                         Loader.setLocation(getClass().getResource("PostOnly.fxml"));
@@ -444,21 +412,7 @@ public class BlockedUserPageNew implements Initializable {
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
-
-                }
-                else{
-                    try {
-                        FXMLLoader fxmlLoader = new FXMLLoader();
-                        fxmlLoader.setLocation(getClass().getResource("PostPicture.fxml"));
-                        VBox vBox;
-                        vBox = fxmlLoader.load();
-                        PostPicture postPicture = fxmlLoader.getController();
-                        postPicture.setData(confession);
-                        approvedConfessions.getChildren().add(vBox);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
+ 
             }
         }
         catch (ClassNotFoundException e) {
@@ -482,8 +436,13 @@ public class BlockedUserPageNew implements Initializable {
             ResultSet res = statement.executeQuery("SELECT * FROM submission where id_sub = "+id_sub+"");
 
             while (res.next()){
-                Post confession = new Post(res.getInt(2),res.getInt(1),res.getString(3),res.getString(7),res.getString(5),res.getString(6),res.getByte(4));
-                if (res.getBytes(4)==null){
+                Post confession = new Post(res.getInt(2),
+                        res.getInt(1),
+                        res.getString(3),
+                        res.getString(7),
+                        res.getString(5),
+                        res.getString(6),
+                        res.getByte(4));
                     try {
                         FXMLLoader Loader = new FXMLLoader();
                         Loader.setLocation(getClass().getResource("PostOnly.fxml"));
@@ -495,21 +454,7 @@ public class BlockedUserPageNew implements Initializable {
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
-
-                }
-                else{
-                    try {
-                        FXMLLoader fxmlLoader = new FXMLLoader();
-                        fxmlLoader.setLocation(getClass().getResource("PostPicture.fxml"));
-                        VBox vBox;
-                        vBox = fxmlLoader.load();
-                        PostPicture postPicture = fxmlLoader.getController();
-                        postPicture.setData(confession);
-                        approvedConfessions.getChildren().add(vBox);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
+ 
             }
         }
         catch (ClassNotFoundException e) {
@@ -532,8 +477,13 @@ public class BlockedUserPageNew implements Initializable {
             Statement statement =  con.createStatement();
             ResultSet res = statement.executeQuery("SELECT * FROM submission where date= '"+date+"'");
             while (res.next()){
-                Post confession = new Post(res.getInt(2),res.getInt(1),res.getString(3),res.getString(7),res.getString(5),res.getString(6),res.getByte(4));
-                if (res.getBytes(4)==null){
+                Post confession = new Post(res.getInt(2),
+                        res.getInt(1),
+                        res.getString(3),
+                        res.getString(7),
+                        res.getString(5),
+                        res.getString(6),
+                        res.getByte(4));
                     try {
                         FXMLLoader Loader = new FXMLLoader();
                         Loader.setLocation(getClass().getResource("PostOnly.fxml"));
@@ -546,21 +496,6 @@ public class BlockedUserPageNew implements Initializable {
                         throw new RuntimeException(e);
                     }
 
-                }
-                else {
-                    try {
-                        FXMLLoader fxmlLoader = new FXMLLoader();
-                        fxmlLoader.setLocation(getClass().getResource("PostPicture.fxml"));
-                        VBox vBox;
-                        vBox = fxmlLoader.load();
-                        PostPicture postPicture = fxmlLoader.getController();
-                        postPicture.setData(confession);
-                        approvedConfessions.getChildren().add(vBox);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-
-                }
             }
         }
         catch (ClassNotFoundException e) {
@@ -583,8 +518,13 @@ public class BlockedUserPageNew implements Initializable {
             Statement statement =  con.createStatement();
             ResultSet res = statement.executeQuery(" SELECT * FROM submission WHERE content LIKE '%"+key+"%'");
             while (res.next()){
-                Post confession = new Post(res.getInt(2),res.getInt(1),res.getString(3),res.getString(7),res.getString(5),res.getString(6),res.getByte(4));
-                if (res.getBytes(4)==null){
+                Post confession = new Post(res.getInt(2),
+                        res.getInt(1),
+                        res.getString(3),
+                        res.getString(7),
+                        res.getString(5),
+                        res.getString(6),
+                        res.getByte(4));
                     try {
                         FXMLLoader Loader = new FXMLLoader();
                         Loader.setLocation(getClass().getResource("PostOnly.fxml"));
@@ -597,21 +537,6 @@ public class BlockedUserPageNew implements Initializable {
                         throw new RuntimeException(e);
                     }
 
-                }
-                else {
-                    try {
-                        FXMLLoader fxmlLoader = new FXMLLoader();
-                        fxmlLoader.setLocation(getClass().getResource("PostPicture.fxml"));
-                        VBox vBox;
-                        vBox = fxmlLoader.load();
-                        PostPicture postPicture = fxmlLoader.getController();
-                        postPicture.setData(confession);
-                        approvedConfessions.getChildren().add(vBox);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-
-                }
             }
         }
         catch (ClassNotFoundException e) {
@@ -644,8 +569,13 @@ public class BlockedUserPageNew implements Initializable {
             Statement statement =  con.createStatement();
             ResultSet res = statement.executeQuery("SELECT * FROM submission");
             while (res.next()){
-                Post confession = new Post(res.getInt(2),res.getInt(1),res.getString(3),res.getString(7),res.getString(5),res.getString(6),res.getByte(4));
-                if (res.getBytes(4)==null){
+                Post confession = new Post(res.getInt(2),
+                        res.getInt(1),
+                        res.getString(3),
+                        res.getString(7),
+                        res.getString(5),
+                        res.getString(6),
+                        res.getByte(4));
                     try {
                         FXMLLoader Loader = new FXMLLoader();
                         Loader.setLocation(getClass().getResource("PostOnly.fxml"));
@@ -658,21 +588,6 @@ public class BlockedUserPageNew implements Initializable {
                         throw new RuntimeException(e);
                     }
 
-                }
-                else {
-                    try {
-                        FXMLLoader fxmlLoader = new FXMLLoader();
-                        fxmlLoader.setLocation(getClass().getResource("PostPicture.fxml"));
-                        VBox vBox;
-                        vBox = fxmlLoader.load();
-                        PostPicture postPicture = fxmlLoader.getController();
-                        postPicture.setData(confession);
-                        approvedConfessions.getChildren().add(vBox);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-
-                }
             }
         }
         catch (ClassNotFoundException e) {

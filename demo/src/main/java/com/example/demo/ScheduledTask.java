@@ -33,7 +33,7 @@ public class ScheduledTask extends TimerTask implements Initializable {
             System.out.println(waiting.getSize());
             Duration diff = Duration.between(startTime,now);
 
-            if (queueLength<=5 && diff.compareTo(Duration.ofSeconds(100))>=0){
+            if (queueLength<=5 && diff.compareTo(Duration.ofSeconds(900))>=0){
                 Post push = waiting.dequeue();
                 submit(push);
                 System.out.println("success");
@@ -82,66 +82,31 @@ public class ScheduledTask extends TimerTask implements Initializable {
                 ResultSet res = statement.executeQuery();
                 //if reply id is valid
                 if (res.next()){
-                    //if there is no image
-                System.out.println(post.getUserID());
-                    if (post.getImageURL()==null){
-                        int insert_data = st.executeUpdate("INSERT INTO submission(id_reply,content,date,time,user) VALUES ("
-                                +post.getReply_id()+",'"
-                                +post.getContent()+"','"
-                                +postDate+"','"
-                                +postTime+"','"
-                                +post.getUserID()+"')");
-                        System.out.println("data pushed");
-                    }
-                    //if there is image
-                    else {
-                        PreparedStatement preparedStatement = con.prepareStatement("INSERT INTO submission(id_reply,content,image,date,time,user) VALUES ("
-                                +post.getReply_id()+",'"
-                                +post.getContent()+"','"
-                                +post.getImageURL()+"','"
-                                +postDate+"','"
-                                +postTime+"','"
-                                +post.getUserID()+"')");
-                        int insert_data = preparedStatement.executeUpdate();
-                        System.out.println("data pushed");
-                        preparedStatement.close();
-                    }
-                }
-                else{
-                    /**show popup saying invalid id and try again
-                     * and reload main page
-                     */
+                    System.out.println(post.getUserID());
+                    int insert_data = st.executeUpdate("INSERT INTO submission(id_reply,content,date,time,user) VALUES ("
+                            +post.getReply_id()+",'"
+                            +post.getContent()+"','"
+                            +postDate+"','"
+                            +postTime+"','"
+                            +post.getUserID()+"')");
+                    System.out.println("data pushed");
                 }
                 res.close();
                 statement.close();
             }
             //if the post is not replying to any other post
             else {
-                    //if there is no image
-                    System.out.println(post.getUserID());
-                    if (post.getImageURL()==null){
-                        int insert_data = st.executeUpdate("INSERT INTO submission(id_reply,content,date,time,user) VALUES ("
-                                +post.getReply_id()+",'"
-                                +post.getContent()+"','"
-                                +postDate+"','"
-                                +postTime+"','"
-                                +post.getUserID()+"')");
-                        System.out.println("data pushed");
-                    }
-                    //if there is image
-                    else {
-                        PreparedStatement preparedStatement = con.prepareStatement("INSERT INTO submission(id_reply,content,image,date,time,user) VALUES ("
-                                +post.getReply_id()+",'"
-                                +post.getContent()+"','"
-                                +post.getImageURL()+"','"
-                                +postDate+"','"
-                                +postTime+"','"
-                                +post.getUserID()+"')");
-                        int insert_data = preparedStatement.executeUpdate();
-                        System.out.println("data pushed");
-                        preparedStatement.close();
-                    }
+                System.out.println(post.getUserID());
+                int insert_data = st.executeUpdate("INSERT INTO submission(id_reply,content,date,time,user) VALUES ("
+                        +post.getReply_id()+",'"
+                        +post.getContent()+"','"
+                        +postDate+"','"
+                        +postTime+"','"
+                        +post.getUserID()+"')");
+                System.out.println("data pushed");
+
             }
+
             con.close();
         }
         catch (ClassNotFoundException e) {

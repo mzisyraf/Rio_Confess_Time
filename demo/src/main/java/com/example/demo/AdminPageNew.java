@@ -20,9 +20,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
-import java.util.LinkedList;
 import java.util.ResourceBundle;
-import java.util.Scanner;
 import java.util.Timer;
 
 public class AdminPageNew implements Initializable {
@@ -163,8 +161,13 @@ public class AdminPageNew implements Initializable {
             Statement statement =  con.createStatement();
             ResultSet res = statement.executeQuery("SELECT * FROM submission");
             while (res.next()){
-                Post confession = new Post(res.getInt(2),res.getInt(1),res.getString(3),res.getString(7),res.getString(5),res.getString(6),res.getByte(4));
-                if (res.getBytes(4)==null){
+                Post confession = new Post(res.getInt(2),
+                        res.getInt(1),
+                        res.getString(3),
+                        res.getString(7),
+                        res.getString(5),
+                        res.getString(6),
+                        res.getByte(4));
                     try {
                         FXMLLoader Loader = new FXMLLoader();
                         Loader.setLocation(getClass().getResource("PostOnly.fxml"));
@@ -176,22 +179,6 @@ public class AdminPageNew implements Initializable {
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
-
-                }
-                else {
-                    try {
-                        FXMLLoader fxmlLoader = new FXMLLoader();
-                        fxmlLoader.setLocation(getClass().getResource("PostPicture.fxml"));
-                        VBox vBox;
-                        vBox = fxmlLoader.load();
-                        PostPicture postPicture = fxmlLoader.getController();
-                        postPicture.setData(confession);
-                        approvedConfessions.getChildren().add(vBox);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-
-                }
             }
         }
         catch (ClassNotFoundException e) {
@@ -237,8 +224,13 @@ public class AdminPageNew implements Initializable {
             Statement statement =  con.createStatement();
             ResultSet res = statement.executeQuery("SELECT * FROM submission where report = 1");
             while (res.next()){
-                Post confession = new Post(res.getInt(2),res.getInt(1),res.getString(3),res.getString(7),res.getString(5),res.getString(6),res.getByte(4));
-                if (res.getBytes(4)==null){
+                Post confession = new Post(res.getInt(2),
+                        res.getInt(1),
+                        res.getString(3),
+                        res.getString(7),
+                        res.getString(5),
+                        res.getString(6),
+                        res.getByte(4));
                     try {
                         FXMLLoader Loader = new FXMLLoader();
                         Loader.setLocation(getClass().getResource("PostOnly.fxml"));
@@ -250,22 +242,6 @@ public class AdminPageNew implements Initializable {
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
-
-                }
-                else {
-                    try {
-                        FXMLLoader fxmlLoader = new FXMLLoader();
-                        fxmlLoader.setLocation(getClass().getResource("PostPicture.fxml"));
-                        VBox vBox;
-                        vBox = fxmlLoader.load();
-                        PostPicture postPicture = fxmlLoader.getController();
-                        postPicture.setData(confession);
-                        approvedConfessions.getChildren().add(vBox);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-
-                }
             }
         }
         catch (ClassNotFoundException e) {
@@ -277,11 +253,7 @@ public class AdminPageNew implements Initializable {
             System.out.println(e);
         }
     }
-
-    @FXML
-    void adminReviewClicked(MouseEvent event) {
-
-    }
+    
 
     @FXML
     void adminSearchClicked(ActionEvent event) {
@@ -342,8 +314,13 @@ public class AdminPageNew implements Initializable {
             Statement statement =  con.createStatement();
             ResultSet res = statement.executeQuery("SELECT * FROM submission");
             while (res.next()){
-                Post confession = new Post(res.getInt(2),res.getInt(1),res.getString(3),res.getString(7),res.getString(5),res.getString(6),res.getByte(4));
-                if (res.getBytes(4)==null){
+                Post confession = new Post(res.getInt(2),
+                        res.getInt(1),
+                        res.getString(3),
+                        res.getString(7),
+                        res.getString(5),
+                        res.getString(6),
+                        res.getByte(4));
                     try {
                         FXMLLoader Loader = new FXMLLoader();
                         Loader.setLocation(getClass().getResource("PostOnly.fxml"));
@@ -355,22 +332,6 @@ public class AdminPageNew implements Initializable {
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
-
-                }
-                else {
-                    try {
-                        FXMLLoader fxmlLoader = new FXMLLoader();
-                        fxmlLoader.setLocation(getClass().getResource("PostPicture.fxml"));
-                        VBox vBox;
-                        vBox = fxmlLoader.load();
-                        PostPicture postPicture = fxmlLoader.getController();
-                        postPicture.setData(confession);
-                        approvedConfessions.getChildren().add(vBox);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-
-                }
             }
         }
         catch (ClassNotFoundException e) {
@@ -467,8 +428,13 @@ public class AdminPageNew implements Initializable {
             ResultSet res = statement.executeQuery("SELECT * FROM submission where id_sub = "+id+" and date = '"+date+"'");
 
             while (res.next()){
-                Post confession = new Post(res.getInt(2),res.getInt(1),res.getString(3),res.getString(7),res.getString(5),res.getString(6),res.getByte(4));
-                if (res.getBytes(4)==null){
+                Post confession = new Post(res.getInt(2),
+                        res.getInt(1),
+                        res.getString(3),
+                        res.getString(7),
+                        res.getString(5),
+                        res.getString(6),
+                        res.getByte(4));
                     try {
                         FXMLLoader Loader = new FXMLLoader();
                         Loader.setLocation(getClass().getResource("PostOnly.fxml"));
@@ -480,21 +446,6 @@ public class AdminPageNew implements Initializable {
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
-
-                }
-                else{
-                    try {
-                        FXMLLoader fxmlLoader = new FXMLLoader();
-                        fxmlLoader.setLocation(getClass().getResource("PostPicture.fxml"));
-                        VBox vBox;
-                        vBox = fxmlLoader.load();
-                        PostPicture postPicture = fxmlLoader.getController();
-                        postPicture.setData(confession);
-                        approvedConfessions.getChildren().add(vBox);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
             }
         }
         catch (ClassNotFoundException e) {
@@ -516,8 +467,13 @@ public class AdminPageNew implements Initializable {
             ResultSet res = statement.executeQuery("SELECT * FROM submission where id_sub = "+id+" and content LIKE '%"+key+"%'");
 
             while (res.next()){
-                Post confession = new Post(res.getInt(2),res.getInt(1),res.getString(3),res.getString(7),res.getString(5),res.getString(6),res.getByte(4));
-                if (res.getBytes(4)==null){
+                Post confession = new Post(res.getInt(2),
+                        res.getInt(1),
+                        res.getString(3),
+                        res.getString(7),
+                        res.getString(5),
+                        res.getString(6),
+                        res.getByte(4));
                     try {
                         FXMLLoader Loader = new FXMLLoader();
                         Loader.setLocation(getClass().getResource("PostOnly.fxml"));
@@ -529,21 +485,7 @@ public class AdminPageNew implements Initializable {
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
-
-                }
-                else{
-                    try {
-                        FXMLLoader fxmlLoader = new FXMLLoader();
-                        fxmlLoader.setLocation(getClass().getResource("PostPicture.fxml"));
-                        VBox vBox;
-                        vBox = fxmlLoader.load();
-                        PostPicture postPicture = fxmlLoader.getController();
-                        postPicture.setData(confession);
-                        approvedConfessions.getChildren().add(vBox);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
+ 
             }
         }
         catch (ClassNotFoundException e) {
@@ -565,8 +507,13 @@ public class AdminPageNew implements Initializable {
             ResultSet res = statement.executeQuery("SELECT * FROM submission where date = '"+date+"' and content LIKE '%"+key+"%'");
 
             while (res.next()){
-                Post confession = new Post(res.getInt(2),res.getInt(1),res.getString(3),res.getString(7),res.getString(5),res.getString(6),res.getByte(4));
-                if (res.getBytes(4)==null){
+                Post confession = new Post(res.getInt(2),
+                        res.getInt(1),
+                        res.getString(3),
+                        res.getString(7),
+                        res.getString(5),
+                        res.getString(6),
+                        res.getByte(4));
                     try {
                         FXMLLoader Loader = new FXMLLoader();
                         Loader.setLocation(getClass().getResource("PostOnly.fxml"));
@@ -578,21 +525,7 @@ public class AdminPageNew implements Initializable {
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
-
-                }
-                else{
-                    try {
-                        FXMLLoader fxmlLoader = new FXMLLoader();
-                        fxmlLoader.setLocation(getClass().getResource("PostPicture.fxml"));
-                        VBox vBox;
-                        vBox = fxmlLoader.load();
-                        PostPicture postPicture = fxmlLoader.getController();
-                        postPicture.setData(confession);
-                        approvedConfessions.getChildren().add(vBox);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
+ 
             }
         }
         catch (ClassNotFoundException e) {
@@ -614,8 +547,13 @@ public class AdminPageNew implements Initializable {
             ResultSet res = statement.executeQuery("SELECT * FROM submission where id_sub = "+id+" and date = '"+date+"' and content LIKE '%"+key+"%'");
 
             while (res.next()){
-                Post confession = new Post(res.getInt(2),res.getInt(1),res.getString(3),res.getString(7),res.getString(5),res.getString(6),res.getByte(4));
-                if (res.getBytes(4)==null){
+                Post confession = new Post(res.getInt(2),
+                        res.getInt(1),
+                        res.getString(3),
+                        res.getString(7),
+                        res.getString(5),
+                        res.getString(6),
+                        res.getByte(4));
                     try {
                         FXMLLoader Loader = new FXMLLoader();
                         Loader.setLocation(getClass().getResource("PostOnly.fxml"));
@@ -627,21 +565,7 @@ public class AdminPageNew implements Initializable {
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
-
-                }
-                else{
-                    try {
-                        FXMLLoader fxmlLoader = new FXMLLoader();
-                        fxmlLoader.setLocation(getClass().getResource("PostPicture.fxml"));
-                        VBox vBox;
-                        vBox = fxmlLoader.load();
-                        PostPicture postPicture = fxmlLoader.getController();
-                        postPicture.setData(confession);
-                        approvedConfessions.getChildren().add(vBox);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
+ 
             }
         }
         catch (ClassNotFoundException e) {
@@ -665,8 +589,13 @@ public class AdminPageNew implements Initializable {
             ResultSet res = statement.executeQuery("SELECT * FROM submission where id_sub = "+id_sub+"");
 
             while (res.next()){
-                Post confession = new Post(res.getInt(2),res.getInt(1),res.getString(3),res.getString(7),res.getString(5),res.getString(6),res.getByte(4));
-                if (res.getBytes(4)==null){
+                Post confession = new Post(res.getInt(2),
+                        res.getInt(1),
+                        res.getString(3),
+                        res.getString(7),
+                        res.getString(5),
+                        res.getString(6),
+                        res.getByte(4));
                     try {
                         FXMLLoader Loader = new FXMLLoader();
                         Loader.setLocation(getClass().getResource("PostOnly.fxml"));
@@ -678,21 +607,7 @@ public class AdminPageNew implements Initializable {
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
-
-                }
-                else{
-                    try {
-                        FXMLLoader fxmlLoader = new FXMLLoader();
-                        fxmlLoader.setLocation(getClass().getResource("PostPicture.fxml"));
-                        VBox vBox;
-                        vBox = fxmlLoader.load();
-                        PostPicture postPicture = fxmlLoader.getController();
-                        postPicture.setData(confession);
-                        approvedConfessions.getChildren().add(vBox);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
+ 
             }
         }
         catch (ClassNotFoundException e) {
@@ -715,8 +630,13 @@ public class AdminPageNew implements Initializable {
             Statement statement =  con.createStatement();
             ResultSet res = statement.executeQuery("SELECT * FROM submission where date= '"+date+"'");
             while (res.next()){
-                Post confession = new Post(res.getInt(2),res.getInt(1),res.getString(3),res.getString(7),res.getString(5),res.getString(6),res.getByte(4));
-                if (res.getBytes(4)==null){
+                Post confession = new Post(res.getInt(2),
+                        res.getInt(1),
+                        res.getString(3),
+                        res.getString(7),
+                        res.getString(5),
+                        res.getString(6),
+                        res.getByte(4));
                     try {
                         FXMLLoader Loader = new FXMLLoader();
                         Loader.setLocation(getClass().getResource("PostOnly.fxml"));
@@ -728,22 +648,6 @@ public class AdminPageNew implements Initializable {
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
-
-                }
-                else {
-                    try {
-                        FXMLLoader fxmlLoader = new FXMLLoader();
-                        fxmlLoader.setLocation(getClass().getResource("PostPicture.fxml"));
-                        VBox vBox;
-                        vBox = fxmlLoader.load();
-                        PostPicture postPicture = fxmlLoader.getController();
-                        postPicture.setData(confession);
-                        approvedConfessions.getChildren().add(vBox);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-
-                }
             }
         }
         catch (ClassNotFoundException e) {
@@ -766,8 +670,13 @@ public class AdminPageNew implements Initializable {
             Statement statement =  con.createStatement();
             ResultSet res = statement.executeQuery(" SELECT * FROM submission WHERE content LIKE '%"+key+"%'");
             while (res.next()){
-                Post confession = new Post(res.getInt(2),res.getInt(1),res.getString(3),res.getString(7),res.getString(5),res.getString(6),res.getByte(4));
-                if (res.getBytes(4)==null){
+                Post confession = new Post(res.getInt(2),
+                        res.getInt(1),
+                        res.getString(3),
+                        res.getString(7),
+                        res.getString(5),
+                        res.getString(6),
+                        res.getByte(4));
                     try {
                         FXMLLoader Loader = new FXMLLoader();
                         Loader.setLocation(getClass().getResource("PostOnly.fxml"));
@@ -780,21 +689,6 @@ public class AdminPageNew implements Initializable {
                         throw new RuntimeException(e);
                     }
 
-                }
-                else {
-                    try {
-                        FXMLLoader fxmlLoader = new FXMLLoader();
-                        fxmlLoader.setLocation(getClass().getResource("PostPicture.fxml"));
-                        VBox vBox;
-                        vBox = fxmlLoader.load();
-                        PostPicture postPicture = fxmlLoader.getController();
-                        postPicture.setData(confession);
-                        approvedConfessions.getChildren().add(vBox);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-
-                }
             }
         }
         catch (ClassNotFoundException e) {
